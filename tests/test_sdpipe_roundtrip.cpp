@@ -8,8 +8,9 @@
 using namespace SSCP;
 
 struct PipeReporter : public ISSPipeReporter {
+    std::vector<UINT32> ids;
     void SSAPI OnReport(INT32 nErrCode, UINT32 dwID) override {
-        (void)nErrCode; (void)dwID;
+        if (nErrCode == PIPE_SUCCESS) ids.push_back(dwID);
     }
 };
 
@@ -35,18 +36,38 @@ TEST(sdpipe, roundtrip) {
 
     ASSERT_TRUE(pipe->AddListen("127.0.0.1", 45678));
 
-    UINT32 id = 0x01020304;
-    ASSERT_TRUE(pipe->AddConn(id, "127.0.0.1", 45678));
+    UINT32 clientId = 0x01020304;
+    ASSERT_TRUE(pipe->AddConn(clientId, "127.0.0.1", 45678));
 
     // Pump until established
     for (int i=0;i<100;++i) { net->Run(10); pipe->Run(10); std::this_thread::sleep_for(std::chrono::milliseconds(10)); }
 
-    auto* p = pipe->GetPipe(id);
+    auto* p = pipe->GetPipe(clientId);
     ASSERT_NE(p, nullptr);
 
     std::atomic<int> recvc{0}; std::string last;
     PipeSink sink(recvc, last);
     ASSERT_TRUE(p->SetSink(7, &sink));
+
+    // Attach echo sink on server side to bounce back
+    UINT32 serverId = 0;
+    for (int i=0;i<50 && serverId==0;++i) {
+        if (!reporter.ids.empty()) {
+            // the reporter captures both client and server ids; pick the one not equal to clientId
+            for (auto id : reporter.ids) if (id != clientId) { serverId = id; break; }
+        }
+        net->Run(10); pipe->Run(10); std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    ASSERT_NE(serverId, 0u);
+    auto* sp = pipe->GetPipe(serverId);
+    ASSERT_NE(sp, nullptr);
+    struct EchoSink : public ISSPipeSink {
+        ISSPipe* pipe;
+        EchoSink(ISSPipe* p):pipe(p){}
+        void SSAPI OnRecv(UINT16 bid, const char* d, UINT32 n) override { pipe->Send(bid, d, n); }
+        void SSAPI OnReport(UINT16, INT32) override {}
+    } echo(sp);
+    ASSERT_TRUE(sp->SetSink(7, &echo));
 
     const char* msg = "hello-pipe";
     ASSERT_TRUE(p->Send(7, msg, (UINT32)strlen(msg)));

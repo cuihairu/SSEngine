@@ -77,7 +77,15 @@ public:
     const UINT32 SSAPI GetLocalIP(void) override { return _localIp; }
     const char* SSAPI GetLocalIPStr(void) override { return _localIpStr; }
     UINT16 SSAPI GetLocalPort(void) override { return _localPort; }
-    UINT32 SSAPI GetSendBufFree(void) override { return 0xFFFFFFFF; }
+    UINT32 SSAPI GetSendBufFree(void) override {
+#ifdef _WIN32
+        int sz = 0; int len = sizeof(sz);
+        if (getsockopt(_sock, SOL_SOCKET, SO_SNDBUF, reinterpret_cast<char*>(&sz), &len) == 0) {
+            return static_cast<UINT32>(sz);
+        }
+#endif
+        return 0xFFFFFFFF;
+    }
 
 #ifdef _WIN32
     void attach(SOCKET s, sockaddr_in local, sockaddr_in remote) {
@@ -192,7 +200,7 @@ void Connection::onError(int modErr, int sysErr) { if (_session) _session->OnErr
 class ListenerImpl : public ISSListener {
 public:
     ListenerImpl(std::queue<NetEvent>* q, std::mutex* m, std::condition_variable* cv)
-        : _parser(nullptr), _factory(nullptr), _running(false), _eq(q), _eqmtx(m), _eqcv(cv) {
+        : _parser(nullptr), _factory(nullptr), _running(false), _eq(q), _eqmtx(m), _eqcv(cv), _recvBuf(0), _sendBuf(0) {
 #ifdef _WIN32
         _sock = INVALID_SOCKET;
 #endif
@@ -201,7 +209,9 @@ public:
 
     void SSAPI SetPacketParser(ISSPacketParser* poPacketParser) override { _parser = poPacketParser; }
     void SSAPI SetSessionFactory(ISSSessionFactory* poSessionFactory) override { _factory = poSessionFactory; }
-    void SSAPI SetBufferSize(UINT32, UINT32) override {}
+    void SSAPI SetBufferSize(UINT32 dwRecvBufSize, UINT32 dwSendBufSize) override {
+        _recvBuf = dwRecvBufSize; _sendBuf = dwSendBufSize;
+    }
     void SSAPI SetOpt(UINT32, void*) override {}
 
     bool SSAPI Start(const char* pszIP, UINT16 wPort, bool bReUseAddr = true) override {
@@ -250,6 +260,8 @@ private:
             auto* sess = _factory ? _factory->CreateSession(conn) : nullptr;
             conn->setSession(sess);
             conn->setParser(_parser);
+            if (_recvBuf) { setsockopt(cs, SOL_SOCKET, SO_RCVBUF, reinterpret_cast<const char*>(&_recvBuf), sizeof(_recvBuf)); }
+            if (_sendBuf) { setsockopt(cs, SOL_SOCKET, SO_SNDBUF, reinterpret_cast<const char*>(&_sendBuf), sizeof(_sendBuf)); }
             conn->attach(cs, local, cli);
             // post established event
             NetEvent ev{NetEventType::Established, conn};
@@ -271,6 +283,7 @@ private:
     std::atomic<bool> _running;
     std::thread _th;
     std::queue<NetEvent>* _eq; std::mutex* _eqmtx; std::condition_variable* _eqcv;
+    UINT32 _recvBuf; UINT32 _sendBuf;
 };
 
 class ConnectorImpl : public ISSConnector {
@@ -282,12 +295,16 @@ public:
     void SSAPI SetPacketParser(ISSPacketParser* poPakcetParser) override { _parser = poPakcetParser; }
     void SSAPI SetSession(ISSSession* poSession) override { _session = poSession; }
     ISSSession* SSAPI GetSession() override { return _session; }
-    void SSAPI SetBufferSize(UINT32, UINT32) override {}
+    void SSAPI SetBufferSize(UINT32 dwRecvBufSize, UINT32 dwSendBufSize) override {
+        _recvBuf = dwRecvBufSize; _sendBuf = dwSendBufSize;
+    }
 
     int SSAPI Connect(const char* pszIP, UINT16 wPort) override {
 #ifdef _WIN32
         SOCKET s = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         if (s == INVALID_SOCKET) return NET_CONNECT_FAIL;
+        if (_recvBuf) { setsockopt(s, SOL_SOCKET, SO_RCVBUF, reinterpret_cast<const char*>(&_recvBuf), sizeof(_recvBuf)); }
+        if (_sendBuf) { setsockopt(s, SOL_SOCKET, SO_SNDBUF, reinterpret_cast<const char*>(&_sendBuf), sizeof(_sendBuf)); }
         sockaddr_in addr{}; addr.sin_family = AF_INET; addr.sin_port = htons(wPort);
         in_addr ip{}; if (!SDNetInetPton(AF_INET, pszIP, &ip)) { ::closesocket(s); return NET_CONNECT_FAIL; }
         addr.sin_addr = ip;
@@ -334,6 +351,7 @@ private:
     std::unique_ptr<Connection> _conn;
     std::queue<NetEvent>* _eq; std::mutex* _eqmtx; std::condition_variable* _eqcv;
     UINT32 _lastIp{0}; UINT16 _lastPort{0};
+    UINT32 _recvBuf{0}; UINT32 _sendBuf{0};
 };
 
 class NetImpl : public ISSNet {

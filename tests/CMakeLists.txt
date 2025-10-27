@@ -27,6 +27,7 @@ add_executable(sse_tests
   test_sdnet_roundtrip.cpp
   test_sdnet_sdpkg.cpp
   test_sdpipe_roundtrip.cpp
+  test_sdnet_reconnect.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE
