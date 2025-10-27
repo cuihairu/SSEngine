@@ -10,7 +10,7 @@ INT32 SSAPI SDAtomicRead32(volatile INT32 *pdwMem) {
 #ifdef _WIN32
     return InterlockedExchangeAdd(reinterpret_cast<volatile LONG*>(pdwMem), 0);
 #else
-    return *pdwMem;
+    return __atomic_load_n(pdwMem, __ATOMIC_SEQ_CST);
 #endif
 }
 
@@ -18,7 +18,7 @@ INT64 SSAPI SDAtomicRead64(volatile INT64 *pqwMem) {
 #ifdef _WIN32
     return InterlockedCompareExchange64(reinterpret_cast<volatile LONG64*>(pqwMem), 0, 0);
 #else
-    return *pqwMem;
+    return __atomic_load_n(pqwMem, __ATOMIC_SEQ_CST);
 #endif
 }
 
@@ -26,7 +26,7 @@ void SSAPI SDAtomicSet32(volatile INT32 *pdwMem, INT32 dwValue) {
 #ifdef _WIN32
     InterlockedExchange(reinterpret_cast<volatile LONG*>(pdwMem), static_cast<LONG>(dwValue));
 #else
-    *pdwMem = dwValue;
+    __atomic_store_n(pdwMem, dwValue, __ATOMIC_SEQ_CST);
 #endif
 }
 
@@ -34,7 +34,7 @@ void SSAPI SDAtomicSet64(volatile INT64 *pqwMem, INT64 qwValue) {
 #ifdef _WIN32
     InterlockedExchange64(reinterpret_cast<volatile LONG64*>(pqwMem), static_cast<LONG64>(qwValue));
 #else
-    *pqwMem = qwValue;
+    __atomic_store_n(pqwMem, qwValue, __ATOMIC_SEQ_CST);
 #endif
 }
 
@@ -42,7 +42,7 @@ INT32 SSAPI SDAtomicAdd32(volatile INT32 *pdwMem, INT32 dwValue) {
 #ifdef _WIN32
     return InterlockedExchangeAdd(reinterpret_cast<volatile LONG*>(pdwMem), static_cast<LONG>(dwValue));
 #else
-    INT32 old = *pdwMem; *pdwMem += dwValue; return old;
+    return __atomic_fetch_add(pdwMem, dwValue, __ATOMIC_SEQ_CST);
 #endif
 }
 
@@ -50,7 +50,7 @@ INT64 SSAPI SDAtomicAdd64(volatile INT64 *pqwMem, INT64 qwValue) {
 #ifdef _WIN32
     return InterlockedExchangeAdd64(reinterpret_cast<volatile LONG64*>(pqwMem), static_cast<LONG64>(qwValue));
 #else
-    INT64 old = *pqwMem; *pqwMem += qwValue; return old;
+    return __atomic_fetch_add(pqwMem, qwValue, __ATOMIC_SEQ_CST);
 #endif
 }
 
@@ -82,7 +82,9 @@ INT32 SSAPI SDAtomicCas32(volatile INT32 *pdwMem, INT32 dwValue, INT32 dwCmp) {
 #ifdef _WIN32
     return InterlockedCompareExchange(reinterpret_cast<volatile LONG*>(pdwMem), static_cast<LONG>(dwValue), static_cast<LONG>(dwCmp));
 #else
-    INT32 old = *pdwMem; if (old == dwCmp) *pdwMem = dwValue; return old;
+    INT32 expected = dwCmp;
+    __atomic_compare_exchange_n(pdwMem, &expected, dwValue, false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
+    return expected;
 #endif
 }
 
@@ -90,7 +92,9 @@ INT64 SSAPI SDAtomicCas64(volatile INT64 *pqwMem, INT64 qwValue, INT64 qwCmp) {
 #ifdef _WIN32
     return InterlockedCompareExchange64(reinterpret_cast<volatile LONG64*>(pqwMem), static_cast<LONG64>(qwValue), static_cast<LONG64>(qwCmp));
 #else
-    INT64 old = *pqwMem; if (old == qwCmp) *pqwMem = qwValue; return old;
+    INT64 expected = qwCmp;
+    __atomic_compare_exchange_n(pqwMem, &expected, qwValue, false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
+    return expected;
 #endif
 }
 
@@ -98,7 +102,7 @@ INT32 SSAPI SDAtomicXchg32(volatile INT32 *pdwMem, INT32 dwValue) {
 #ifdef _WIN32
     return InterlockedExchange(reinterpret_cast<volatile LONG*>(pdwMem), static_cast<LONG>(dwValue));
 #else
-    INT32 old = *pdwMem; *pdwMem = dwValue; return old;
+    return __atomic_exchange_n(pdwMem, dwValue, __ATOMIC_SEQ_CST);
 #endif
 }
 
@@ -106,7 +110,7 @@ INT64 SSAPI SDAtomicXchg64(volatile INT64 *pqwMem, INT64 qwValue) {
 #ifdef _WIN32
     return InterlockedExchange64(reinterpret_cast<volatile LONG64*>(pqwMem), static_cast<LONG64>(qwValue));
 #else
-    INT64 old = *pqwMem; *pqwMem = qwValue; return old;
+    return __atomic_exchange_n(pqwMem, qwValue, __ATOMIC_SEQ_CST);
 #endif
 }
 
@@ -114,9 +118,9 @@ void* SSAPI SDAtomicCasptr(volatile void **pPtr, void *pWith, const void *pCmp) 
 #ifdef _WIN32
     return InterlockedCompareExchangePointer(const_cast<PVOID*>(pPtr), pWith, const_cast<void*>(pCmp));
 #else
-    void* old = const_cast<void*>(*pPtr);
-    if (old == pCmp) *pPtr = pWith;
-    return old;
+    void* expected = const_cast<void*>(pCmp);
+    __atomic_compare_exchange_n(pPtr, &expected, pWith, false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
+    return expected;
 #endif
 }
 
@@ -124,7 +128,7 @@ void* SSAPI SDAtomicXchgptr(volatile void **pPtr, void *pWith) {
 #ifdef _WIN32
     return InterlockedExchangePointer(const_cast<PVOID*>(pPtr), pWith);
 #else
-    void* old = const_cast<void*>(*pPtr); *pPtr = pWith; return old;
+    return __atomic_exchange_n(pPtr, pWith, __ATOMIC_SEQ_CST);
 #endif
 }
 
