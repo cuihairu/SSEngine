@@ -19,6 +19,9 @@
 #define __SSCP_SDSYSTEMINFO_ISYSTEMINFO_H__
 
 #include "sdbase.h"
+// Compatibility: alias SSSCPVersion to SSSVersion for this SDK
+typedef SSSVersion SSSCPVersion;
+
 
 
 namespace SSCP

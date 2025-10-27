@@ -12,7 +12,10 @@ option(SSE_BUILD_MACOS_IMPL   "Enable macOS implementation builds"   OFF)
 
 # Public headers (mirrored from vendor win64/include for now)
 set(SSE_PUBLIC_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(SSE_PUBLIC_INCLUDE_DIRS ${SSE_PUBLIC_INCLUDE_DIR})
+set(SSE_PUBLIC_INCLUDE_DIRS
+  ${SSE_PUBLIC_INCLUDE_DIR}
+  ${SSE_PUBLIC_INCLUDE_DIR}/ssengine
+)
 
 # Export compile definitions for platform macros used in headers
 if (WIN32)
