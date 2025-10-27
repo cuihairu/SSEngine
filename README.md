@@ -5,7 +5,7 @@
 注意：win32/win64 目录中的头文件与库仍然保留，只作为对照测试与行为基准，不再直接参与后续构建。
 
 ## 目录结构
-- include/        统一的公共头文件（当前从 win64/include 同步，后续保持为权威头）
+ - include/        统一的公共头文件（已扁平化原来的 include/include 结构）
 - src/            各模块源码（先实现 Windows，后实现 Linux，最后 macOS）
 - win32/, win64/  供应商二进制与头文件（对照用）
 - CMakeLists.txt  顶层 CMake，工程使用 CMake 统一管理
@@ -13,7 +13,7 @@
 
 ## 模块清单（按优先级）
 1) sdlogger    文件/UDP/TCP 日志器 + 工厂导出
-2) sdu         常用工具（线程/锁/时间/文件/原子/网络字节序等）
+2) sdu         常用工具（线程/锁/条件变量/时间/文件/原子/网络字节序等）
 3) sdnet       高性能网络（Windows: IOCP；Linux: epoll；macOS: kqueue）
 4) sdpipe      基于 sdnet 的消息/管道抽象
 5) sdconsole   Windows 控制台（固定区域/滚动区/颜色/键盘监听）
@@ -55,11 +55,11 @@
 - 其他平台当前仅生成占位库，待实现对应平台逻辑后再启用。
 
 ## 变更记录（本次）
-- 初始化 Git 仓库，关联远程 cuihairu/SSEngine
-- 新增 CMake 脚手架：include/ 与 src/，并添加占位目标
-- 提供 sdlogger 的 Windows 优先实现骨架（文件/UDP/TCP），非 Windows 平台退化为桩
-- 规划分阶段目标与测试策略
-- 集成 GoogleTest 与 CTest，新增 sdlogger 冒烟测试
+- 扁平 include/include 为单一 include/ 根；修正 CMake PUBLIC include 目录
+- 实现 sdu 子集：sdnetutils（跨平台）、sdthread/sdmutex/sdcondition/sdtime/sdfile/sdatomic（Windows 优先）
+- sdlogger：CSDLogger 实现；Windows 下提供文件/UDP/TCP 基础实现
+- sdnet：提供骨架工厂，后续替换 IOCP 实现
+- 集成 GoogleTest 与 CTest；新增 sdlogger/sdnetutils/sdthread/sdmutex/sdtime/sdfile/sdatomic 单测
 
 ## 下一步计划
 1) 在 Windows 下完善 sdlogger 的文件/UDP/TCP 实现与行为对拍测试
