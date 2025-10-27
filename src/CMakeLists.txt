@@ -12,6 +12,10 @@ add_library(sdlogger STATIC
 
 target_include_directories(sdlogger PUBLIC ${PUBLIC_INC})
 target_compile_features(sdlogger PUBLIC cxx_std_17)
+if (WIN32)
+  target_link_libraries(sdlogger PRIVATE ws2_32)
+  target_compile_definitions(sdlogger PRIVATE _WINSOCK_DEPRECATED_NO_WARNINGS)
+endif()
 
 # Placeholder targets for other modules; sources will be added in subsequent steps
 add_library(sdu STATIC sdu/placeholder.cpp)

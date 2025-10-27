@@ -9,6 +9,7 @@
 - src/            各模块源码（先实现 Windows，后实现 Linux，最后 macOS）
 - win32/, win64/  供应商二进制与头文件（对照用）
 - CMakeLists.txt  顶层 CMake，工程使用 CMake 统一管理
+- docs/HEADERS.md 头文件分类与用途说明（实现与测试导航）
 
 ## 模块清单（按优先级）
 1) sdlogger    文件/UDP/TCP 日志器 + 工厂导出
@@ -56,12 +57,12 @@
 ## 变更记录（本次）
 - 初始化 Git 仓库，关联远程 cuihairu/SSEngine
 - 新增 CMake 脚手架：include/ 与 src/，并添加占位目标
-- 提供 sdlogger 的最小占位实现与工厂函数（后续替换为真实实现）
+- 提供 sdlogger 的 Windows 优先实现骨架（文件/UDP/TCP），非 Windows 平台退化为桩
 - 规划分阶段目标与测试策略
+- 集成 GoogleTest 与 CTest，新增 sdlogger 冒烟测试
 
 ## 下一步计划
 1) 在 Windows 下完善 sdlogger 的文件/UDP/TCP 实现与行为对拍测试
 2) 实现 sdu 最小子集（线程/锁/时间/文件/网络字节序/原子 等）
 3) 起步 sdnet(IOCP) + sdpipe 的骨架与关键路径测试
 4) 整合 Windows CI（构建、运行对拍测试）
-
