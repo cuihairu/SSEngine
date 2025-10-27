@@ -24,6 +24,7 @@ add_executable(sse_tests
   test_sdtime.cpp
   test_sdfile.cpp
   test_sdatomic.cpp
+  test_sdnet_roundtrip.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE
