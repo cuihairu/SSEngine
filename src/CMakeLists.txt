@@ -21,6 +21,7 @@ endif()
 # Placeholder targets for other modules; sources will be added in subsequent steps
 add_library(sdu STATIC
   sdu/sdnetutils.cpp
+  sdu/sdthread.cpp
   sdu/placeholder.cpp
 )
 target_include_directories(sdu PUBLIC ${PUBLIC_INCS})
