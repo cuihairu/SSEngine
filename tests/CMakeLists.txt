@@ -20,6 +20,7 @@ add_executable(sse_tests
   test_sdlogger.cpp
   test_sdnet.cpp
   test_sdnetutils.cpp
+  test_sdmutex.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE
