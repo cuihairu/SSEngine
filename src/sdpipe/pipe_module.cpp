@@ -6,6 +6,8 @@
 #include <vector>
 #include <mutex>
 #include <atomic>
+#include <unordered_set>
+#include <fstream>
 
 namespace SSCP {
 
@@ -109,6 +111,7 @@ public:
 
     bool SSAPI Init(const char* /*pszConfFile*/, const char* /*pszIPListFile*/, ISSPipeReporter* pReporter, ISSNet* pNetModule) override {
         _reporter = pReporter; _net = pNetModule; _localId = 0x01000000; // arbitrary
+        _useWhitelist = false; _ipWhitelist.clear();
         return (_net != nullptr);
     }
 
@@ -141,6 +144,7 @@ public:
     }
     bool SSAPI AddConn(UINT32 dwID, const char* pszRemoteIP, UINT16 wRemotePort, UINT32, UINT32) override {
         if (!_net) return false;
+        if (!_checkIp(pszRemoteIP)) return false;
         auto* conn = _net->CreateConnector(NETIO_ASYNCSELECT);
         auto* parser = new CSDPacketParser();
         auto* session = new PipeSession(this, dwID);
@@ -175,6 +179,10 @@ public:
         public:
             AcceptFactory(PipeModule* m):_m(m){}
             ISSession* SSAPI CreateSession(ISSConnection* poConnection) override {
+                if (_m->_useWhitelist) {
+                    const char* rip = poConnection ? poConnection->GetRemoteIPStr() : nullptr;
+                    if (!rip || !_m->_checkIp(rip)) { if (poConnection) poConnection->Disconnect(); return nullptr; }
+                }
                 UINT32 id = _m->allocId();
                 auto* s = new PipeSession(_m, id); s->SetConnection(poConnection); return s;
             }
@@ -190,9 +198,26 @@ public:
 
     UINT32 SSAPI GetLocalID(void) override { return _localId; }
 
-    bool SSAPI ReloadIPList(const char* ) override { return true; }
-    bool SSAPI ReloadPipeConfig(const char* , const UINT32 ) override { return true; }
-    bool SSAPI CheckIpValid(const char* ) override { return true; }
+    bool SSAPI ReloadIPList(const char* pszIPListFile) override {
+        if (!pszIPListFile) return false;
+        std::ifstream ifs(pszIPListFile);
+        if (!ifs) return false;
+        std::unordered_set<std::string> tmp;
+        std::string line;
+        while (std::getline(ifs, line)) {
+            size_t b = line.find_first_not_of(" \t\r\n");
+            size_t e = line.find_last_not_of(" \t\r\n");
+            if (b == std::string::npos) continue;
+            std::string ip = line.substr(b, e - b + 1);
+            if (!ip.empty() && ip[0] != '#') tmp.insert(ip);
+        }
+        std::lock_guard<std::mutex> lk(_mtx);
+        _ipWhitelist.swap(tmp);
+        _useWhitelist = !_ipWhitelist.empty();
+        return true;
+    }
+    bool SSAPI ReloadPipeConfig(const char* /*pszConfFile*/, const UINT32 /*dwGroup*/) override { return true; }
+    bool SSAPI CheckIpValid(const char* ip) override { return _checkIp(ip); }
 
     void SSAPI AddRef(void) override { _ref.fetch_add(1); }
     UINT32 SSAPI QueryRef(void) override { return _ref.load(); }
@@ -228,6 +253,14 @@ private:
     std::unordered_map<UINT32, ISSPacketParser*> _parserById;
     std::vector<std::unique_ptr<ISSSessionFactory>> _acceptFactories;
     UINT32 _localId;
+    bool _useWhitelist{false};
+    std::unordered_set<std::string> _ipWhitelist;
+
+    bool _checkIp(const char* ip) const {
+        if (!_useWhitelist) return true;
+        if (!ip) return false;
+        return _ipWhitelist.find(ip) != _ipWhitelist.end();
+    }
 };
 
 // factory and logger
