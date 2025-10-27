@@ -89,6 +89,7 @@ public:
         _remotePort = ntohs(remote.sin_port);
         std::strncpy(_localIpStr, SDInetNtoa(_localIp), sizeof(_localIpStr)-1);
         std::strncpy(_remoteIpStr, SDInetNtoa(_remoteIp), sizeof(_remoteIpStr)-1);
+        if (_session) _session->SetConnection(this);
         startRecvThread();
     }
 #endif
@@ -167,27 +168,17 @@ private:
 };
 
 void Connection::enqueueRecv(const char* data, size_t len) {
-    if (!_parser) {
-        postEvent(NetEvent{NetEventType::Recv, this, std::string(data, len)});
-        return;
-    }
-    size_t offset = 0;
-    while (offset < len) {
-        int want = _parser->ParsePacket(data + offset, static_cast<UINT32>(len - offset));
-        if (want < 0) {
-            postEvent(NetEvent{NetEventType::Error, this, std::string(), NET_PACKET_ERROR, 0});
-            break;
-        }
-        if (want == 0) {
-            // not enough, buffer not handled here (simple impl: deliver remainder)
-            postEvent(NetEvent{NetEventType::Recv, this, std::string(data + offset, len - offset)});
-            break;
-        }
-        if (offset + static_cast<size_t>(want) <= len) {
-            postEvent(NetEvent{NetEventType::Recv, this, std::string(data + offset, static_cast<size_t>(want))});
-            offset += static_cast<size_t>(want);
+    if (!_parser) { postEvent(NetEvent{NetEventType::Recv, this, std::string(data, len)}); return; }
+    // Accumulate and parse frames by parser
+    _accum.append(data, data + len);
+    for (;;) {
+        int want = _parser->ParsePacket(_accum.data(), static_cast<UINT32>(_accum.size()));
+        if (want < 0) { postEvent(NetEvent{NetEventType::Error, this, std::string(), NET_PACKET_ERROR, 0}); _accum.clear(); break; }
+        if (want == 0) break; // need more
+        if (static_cast<size_t>(want) <= _accum.size()) {
+            postEvent(NetEvent{NetEventType::Recv, this, std::string(_accum.data(), _accum.data() + want)});
+            _accum.erase(0, static_cast<size_t>(want));
         } else {
-            postEvent(NetEvent{NetEventType::Recv, this, std::string(data + offset, len - offset)});
             break;
         }
     }
@@ -317,13 +308,23 @@ public:
             _eq->push(ev);
         }
         _eqcv->notify_one();
+        _lastIp = addr.sin_addr.S_un.S_addr; _lastPort = wPort;
         return NET_SUCCESS;
 #else
         (void)pszIP; (void)wPort; return NET_CONNECT_FAIL;
 #endif
     }
 
-    int SSAPI ReConnect(void) override { return NET_CONNECT_FAIL; }
+    int SSAPI ReConnect(void) override {
+#ifdef _WIN32
+        if (_lastIp == 0 || _lastPort == 0) return NET_CONNECT_FAIL;
+        CHAR ipbuf[32] = {0};
+        std::strncpy(ipbuf, SDInetNtoa(_lastIp), sizeof(ipbuf)-1);
+        return Connect(ipbuf, _lastPort);
+#else
+        return NET_CONNECT_FAIL;
+#endif
+    }
     void SSAPI Release(void) override { delete this; }
     void SSAPI SetOpt(UINT32, void*) override {}
 
@@ -332,6 +333,7 @@ private:
     ISSSession* _session;
     std::unique_ptr<Connection> _conn;
     std::queue<NetEvent>* _eq; std::mutex* _eqmtx; std::condition_variable* _eqcv;
+    UINT32 _lastIp{0}; UINT16 _lastPort{0};
 };
 
 class NetImpl : public ISSNet {

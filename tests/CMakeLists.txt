@@ -25,6 +25,7 @@ add_executable(sse_tests
   test_sdfile.cpp
   test_sdatomic.cpp
   test_sdnet_roundtrip.cpp
+  test_sdnet_sdpkg.cpp
   test_sdpipe_roundtrip.cpp
 )
 
