@@ -107,7 +107,20 @@ public:
     bool SSAPI Run(INT32 nCount = -1) override { return _net ? _net->Run(nCount) : false; }
 
     bool SSAPI ReplaceConn(UINT32 dwID, const char* pszRemoteIP, UINT16 wRemotePort, UINT32, UINT32) override {
-        RemoveConn(dwID); return AddConn(dwID, pszRemoteIP, wRemotePort);
+        // Keep existing PipeImpl (sinks/userdata) and reconnect session
+        if (!_net) return false;
+        auto* conn = _net->CreateConnector(NETIO_ASYNCSELECT);
+        auto* parser = new CSDPacketParser();
+        auto* session = new PipeSession(this, dwID);
+        conn->SetPacketParser(parser);
+        conn->SetSession(session);
+        int rc = conn->Connect(pszRemoteIP, wRemotePort);
+        if (rc != NET_SUCCESS) { conn->Release(); delete parser; return false; }
+        std::lock_guard<std::mutex> lk(_mtx);
+        if (_pipes.find(dwID) == _pipes.end()) _pipes.emplace(dwID, std::unique_ptr<PipeImpl>(new PipeImpl(dwID)));
+        _connectors.emplace_back(conn);
+        _ownedParsers.emplace_back(parser);
+        return true;
     }
     bool SSAPI AddConn(UINT32 dwID, const char* pszRemoteIP, UINT16 wRemotePort, UINT32, UINT32) override {
         if (!_net) return false;
@@ -200,4 +213,3 @@ ISSPipeModule* SSAPI SSPipeGetModule(const SSSVersion* /*pstVersion*/) { return 
 bool SSAPI SSPipeSetLogger(ISSLogger* poLogger, UINT32 dwLevel) { g_pipe_logger = poLogger; g_pipe_loglevel = dwLevel; return true; }
 
 } // namespace SSCP
-
