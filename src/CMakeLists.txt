@@ -8,6 +8,7 @@ add_library(sdlogger STATIC
   sdlogger/file_logger_win.cpp
   sdlogger/udp_logger_win.cpp
   sdlogger/tcp_logger_win.cpp
+  sdlogger/csdlogger.cpp
 )
 
 target_include_directories(sdlogger PUBLIC ${PUBLIC_INCS})
