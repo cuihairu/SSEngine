@@ -22,6 +22,7 @@ add_executable(sse_tests
   test_sdnetutils.cpp
   test_sdmutex.cpp
   test_sdtime.cpp
+  test_sdfile.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE
