@@ -33,6 +33,10 @@ struct NetEvent {
 static ISSLogger* g_logger = nullptr;
 static UINT32 g_log_level = 0;
 
+// module-level options (defaults)
+struct NetWinOptions { UINT32 recvBuf{0}; UINT32 sendBuf{0}; INT32 maxConn{-1}; };
+static NetWinOptions g_winopts;
+
 class Connection : public ISSConnection {
 public:
     Connection():_sock(INVALID_SOCKET),_connected(false),_parser(nullptr),_session(nullptr),_recvThreadRunning(false){
@@ -69,7 +73,7 @@ public:
     }
 
     void SSAPI Disconnect(void) override {
-        _connected.store(false);
+        bool was = _connected.exchange(false);
 #ifdef _WIN32
         if (_sock != INVALID_SOCKET) {
             ::shutdown(_sock, SD_BOTH);
@@ -77,6 +81,7 @@ public:
             _sock = INVALID_SOCKET;
         }
 #endif
+        if (was) { postEvent(NetEvent{NetEventType::Terminated, this}); }
     }
 
     const UINT32 SSAPI GetRemoteIP(void) override { return _remoteIp; }
@@ -213,7 +218,7 @@ void Connection::onError(int modErr, int sysErr) { if (_session) _session->OnErr
 class ListenerImpl : public ISSListener {
 public:
     ListenerImpl(std::queue<NetEvent>* q, std::mutex* m, std::condition_variable* cv)
-        : _parser(nullptr), _factory(nullptr), _running(false), _eq(q), _eqmtx(m), _eqcv(cv), _recvBuf(0), _sendBuf(0) {
+        : _parser(nullptr), _factory(nullptr), _running(false), _eq(q), _eqmtx(m), _eqcv(cv), _recvBuf(g_winopts.recvBuf), _sendBuf(g_winopts.sendBuf) {
 #ifdef _WIN32
         _sock = INVALID_SOCKET;
 #endif
@@ -387,10 +392,13 @@ public:
     const char * SSAPI GetModuleName(void) override { return SDNET_MODULENAME; }
 
     ISSConnector* SSAPI CreateConnector(UINT32 /*dwNetIOType*/) override {
-        return new ConnectorImpl(&_eq, &_eqmtx, &_eqcv);
+        auto* c = new ConnectorImpl(&_eq, &_eqmtx, &_eqcv);
+        c->SetBufferSize(g_winopts.recvBuf, g_winopts.sendBuf);
+        return c;
     }
     ISSListener* SSAPI CreateListener(UINT32 /*dwNetIOType*/) override {
-        return new ListenerImpl(&_eq, &_eqmtx, &_eqcv);
+        auto* l = new ListenerImpl(&_eq, &_eqmtx, &_eqcv);
+        return l;
     }
 
     bool SSAPI Run(INT32 nCount = -1) override {
@@ -439,8 +447,17 @@ bool SSAPI SSNetSetLogger(ISSLogger* poLogger, UINT32 dwLevel) {
     g_logger = poLogger; g_log_level = dwLevel; (void)g_log_level; return true;
 }
 
-void SSAPI SSNetSetOpt(UINT32 /*dwType*/, void* /*pOpt*/) {
-    // Store options as needed in future
+void SSAPI SSNetSetOpt(UINT32 dwType, void* pOpt) {
+    if (!pOpt) return;
+    // Windows options
+    if (dwType == NETWIN_OPT_QUEUE_SIZE) {
+        auto* q = reinterpret_cast<SNetWinOptQueueSize*>(pOpt);
+        if (q->nRecvBufSize > 0) g_winopts.recvBuf = static_cast<UINT32>(q->nRecvBufSize);
+        if (q->nEventQueueSize > 0) {/* not used directly in this implementation */}
+    } else if (dwType == NETWIN_OPT_MAX_CONNECTION) {
+        auto* o = reinterpret_cast<SNetWinOptMaxConnection*>(pOpt);
+        g_winopts.maxConn = o->nMaxConnection;
+    }
 }
 
 } // namespace SSCP

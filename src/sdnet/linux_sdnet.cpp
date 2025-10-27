@@ -41,7 +41,7 @@ public:
         std::thread([s, buf=std::move(buf)](){ ::send(s, buf.data(), buf.size(), 0); }).detach();
     }
     void SSAPI SetOpt(UINT32, void*) override {}
-    void SSAPI Disconnect(void) override { _connected.store(false); if (_sock!=-1) { ::shutdown(_sock, SHUT_RDWR); ::close(_sock); _sock=-1; } }
+    void SSAPI Disconnect(void) override { bool was = _connected.exchange(false); if (_sock!=-1) { ::shutdown(_sock, SHUT_RDWR); ::close(_sock); _sock=-1; } if (was) { postEvent(NetEvent{NetEventType::Terminated, this}); } }
     const UINT32 SSAPI GetRemoteIP(void) override { return _remoteIp; }
     const char* SSAPI GetRemoteIPStr(void) override { return _remoteIpStr; }
     UINT16 SSAPI GetRemotePort(void) override { return _remotePort; }
@@ -109,7 +109,7 @@ private:
 class ListenerImpl : public ISSListener {
 public:
     ListenerImpl(std::queue<NetEvent>* q, std::mutex* m, std::condition_variable* cv)
-        : _sock(-1), _parser(nullptr), _factory(nullptr), _running(false), _eq(q), _eqmtx(m), _eqcv(cv), _recvBuf(0), _sendBuf(0) {}
+        : _sock(-1), _parser(nullptr), _factory(nullptr), _running(false), _eq(q), _eqmtx(m), _eqcv(cv), _recvBuf(g_linopts.recvBuf), _sendBuf(g_linopts.sendBuf) {}
     ~ListenerImpl() override { Stop(); }
     void SSAPI SetPacketParser(ISSPacketParser* p) override { _parser=p; }
     void SSAPI SetSessionFactory(ISSSessionFactory* f) override { _factory=f; }
@@ -147,7 +147,7 @@ private:
 class ConnectorImpl : public ISSConnector {
 public:
     ConnectorImpl(std::queue<NetEvent>* q, std::mutex* m, std::condition_variable* cv)
-        : _parser(nullptr), _session(nullptr), _eq(q), _eqmtx(m), _eqcv(cv), _recvBuf(0), _sendBuf(0), _lastIp(0), _lastPort(0) {}
+        : _parser(nullptr), _session(nullptr), _eq(q), _eqmtx(m), _eqcv(cv), _recvBuf(g_linopts.recvBuf), _sendBuf(g_linopts.sendBuf), _lastIp(0), _lastPort(0) {}
     void SSAPI SetPacketParser(ISSPacketParser* p) override { _parser=p; }
     void SSAPI SetSession(ISSSession* s) override { _session=s; }
     ISSSession* SSAPI GetSession() override { return _session; }
@@ -192,6 +192,18 @@ private:
 
 ISSNet* SSAPI SSNetGetModule(const SSSVersion*) { return new NetImpl(); }
 bool SSAPI SSNetSetLogger(ISSLogger*, UINT32) { return true; }
-void SSAPI SSNetSetOpt(UINT32, void*) {}
+void SSAPI SSNetSetOpt(UINT32 dwType, void* pOpt) {
+    if (!pOpt) return;
+    if (dwType == NETLIN_OPT_QUEUE_SIZE) {
+        auto* q = reinterpret_cast<SNetLinOptQueueSize*>(pOpt);
+        if (q->nRecvBufSize > 0) g_linopts.recvBuf = static_cast<UINT32>(q->nRecvBufSize);
+        if (q->nSendBufSize > 0) g_linopts.sendBuf = static_cast<UINT32>(q->nSendBufSize);
+    } else if (dwType == NETLIN_OPT_MAX_CONNECTION) {
+        auto* o = reinterpret_cast<SNetLinOptMaxConnection*>(pOpt);
+        g_linopts.maxConn = o->nMaxConnection;
+    }
+}
 
 } // namespace SSCP
+struct NetLinOptions { UINT32 recvBuf{0}; UINT32 sendBuf{0}; INT32 maxConn{-1}; };
+static NetLinOptions g_linopts;
