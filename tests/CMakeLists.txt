@@ -28,6 +28,7 @@ add_executable(sse_tests
   test_sdnet_sdpkg.cpp
   test_sdpipe_roundtrip.cpp
   test_sdpipe_replace.cpp
+  test_sdpipe_remove.cpp
   test_sdnet_reconnect.cpp
 )
 

@@ -118,8 +118,13 @@ public:
         if (rc != NET_SUCCESS) { conn->Release(); delete parser; return false; }
         std::lock_guard<std::mutex> lk(_mtx);
         if (_pipes.find(dwID) == _pipes.end()) _pipes.emplace(dwID, std::unique_ptr<PipeImpl>(new PipeImpl(dwID)));
-        _connectors.emplace_back(conn);
-        _ownedParsers.emplace_back(parser);
+        // release old
+        auto itc = _connById.find(dwID);
+        if (itc != _connById.end()) { itc->second->Release(); _connById.erase(itc); }
+        auto itp = _parserById.find(dwID);
+        if (itp != _parserById.end()) { delete itp->second; _parserById.erase(itp); }
+        _connById[dwID] = conn;
+        _parserById[dwID] = parser;
         return true;
     }
     bool SSAPI AddConn(UINT32 dwID, const char* pszRemoteIP, UINT16 wRemotePort, UINT32, UINT32) override {
@@ -133,13 +138,18 @@ public:
         if (rc != NET_SUCCESS) { conn->Release(); delete parser; return false; }
         std::lock_guard<std::mutex> lk(_mtx);
         if (_pipes.find(dwID) == _pipes.end()) _pipes.emplace(dwID, std::unique_ptr<PipeImpl>(new PipeImpl(dwID)));
-        _connectors.emplace_back(conn);
-        _ownedParsers.emplace_back(parser);
+        // store mapping
+        _connById[dwID] = conn;
+        _parserById[dwID] = parser;
         return true;
     }
     bool SSAPI RemoveConn(UINT32 dwID) override {
         std::lock_guard<std::mutex> lk(_mtx);
-        auto it = _pipes.find(dwID); if (it == _pipes.end()) return false; it->second->Close(); _pipes.erase(it); return true;
+        auto it = _pipes.find(dwID); if (it == _pipes.end()) return false; it->second->Close(); _pipes.erase(it);
+        auto itc = _connById.find(dwID); if (itc != _connById.end()) { itc->second->Release(); _connById.erase(itc); }
+        auto itp = _parserById.find(dwID); if (itp != _parserById.end()) { delete itp->second; _parserById.erase(itp); }
+        report(PIPE_DISCONNECT, dwID);
+        return true;
     }
 
     bool SSAPI AddListen(const char* pszLocalIP, UINT16 wLocalPort, UINT32, UINT32) override {
@@ -202,8 +212,8 @@ private:
     std::mutex _mtx;
     std::unordered_map<UINT32, std::unique_ptr<PipeImpl>> _pipes;
     std::vector<ISSListener*> _listeners; // owned by module; release on destructor
-    std::vector<ISSConnector*> _connectors;
-    std::vector<ISSPacketParser*> _ownedParsers; // to delete on module destruction
+    std::unordered_map<UINT32, ISSConnector*> _connById;
+    std::unordered_map<UINT32, ISSPacketParser*> _parserById;
     std::vector<std::unique_ptr<ISSSessionFactory>> _acceptFactories;
     UINT32 _localId;
 };
