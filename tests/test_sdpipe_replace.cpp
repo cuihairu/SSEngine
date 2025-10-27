@@ -17,7 +17,7 @@ struct CntSink : public ISSPipeSink {
 };
 
 TEST(sdpipe, replace_conn_keeps_sinks) {
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__linux__)
     auto* net = SSNetGetModule(&SDNET_MODULE_VERSION);
     ASSERT_NE(net, nullptr);
     auto* pipe = SSPipeGetModule(&SDNET_MODULE_VERSION);
@@ -46,7 +46,6 @@ TEST(sdpipe, replace_conn_keeps_sinks) {
 
     net->Release(); pipe->Release();
 #else
-    GTEST_SKIP() << "Windows only";
+    GTEST_SKIP() << "Windows/Linux only";
 #endif
 }
-

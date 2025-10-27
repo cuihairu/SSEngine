@@ -26,7 +26,7 @@ struct PipeSink : public ISSPipeSink {
 };
 
 TEST(sdpipe, roundtrip) {
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__linux__)
     auto* net = SSNetGetModule(&SDNET_MODULE_VERSION);
     ASSERT_NE(net, nullptr);
     auto* pipe = SSPipeGetModule(&SDNET_MODULE_VERSION);
@@ -79,6 +79,6 @@ TEST(sdpipe, roundtrip) {
     net->Release();
     pipe->Release();
 #else
-    GTEST_SKIP() << "Windows sdpipe roundtrip only";
+    GTEST_SKIP() << "Windows/Linux only";
 #endif
 }
