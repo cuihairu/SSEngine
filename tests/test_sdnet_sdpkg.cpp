@@ -39,7 +39,7 @@ static std::string make_pkg(const char* payload, UINT16 len) {
 }
 
 TEST(sdnet, sdpkg_sticky_and_split) {
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__linux__)
     auto* net = SSNetGetModule(&SDNET_MODULE_VERSION);
     ASSERT_NE(net, nullptr);
 
@@ -83,6 +83,6 @@ TEST(sdnet, sdpkg_sticky_and_split) {
 
     listener->Stop(); listener->Release(); connector->Release(); net->Release();
 #else
-    GTEST_SKIP() << "Windows only";
+    GTEST_SKIP() << "Windows/Linux only";
 #endif
 }

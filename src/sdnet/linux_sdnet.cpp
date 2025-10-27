@@ -18,6 +18,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <errno.h>
 
 namespace SSCP {
 
@@ -186,4 +187,3 @@ bool SSAPI SSNetSetLogger(ISSLogger*, UINT32) { return true; }
 void SSAPI SSNetSetOpt(UINT32, void*) {}
 
 } // namespace SSCP
-

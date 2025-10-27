@@ -53,7 +53,7 @@ struct ClientSession : public ISSSession {
 };
 
 TEST(sdnet, roundtrip_client_server) {
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__linux__)
     auto* net = SSNetGetModule(&SDNET_MODULE_VERSION);
     ASSERT_NE(net, nullptr);
 
@@ -110,6 +110,6 @@ TEST(sdnet, roundtrip_client_server) {
     connector->Release();
     net->Release();
 #else
-    GTEST_SKIP() << "Windows sdnet roundtrip only";
+    GTEST_SKIP() << "Windows/Linux only";
 #endif
 }

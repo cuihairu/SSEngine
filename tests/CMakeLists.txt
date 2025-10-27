@@ -30,6 +30,7 @@ add_executable(sse_tests
   test_sdpipe_replace.cpp
   test_sdpipe_remove.cpp
   test_sdnet_reconnect.cpp
+  test_sdnet_close.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE
