@@ -24,6 +24,7 @@ add_library(sdu STATIC
   sdu/sdthread.cpp
   sdu/sdmutex.cpp
   sdu/sdcondition.cpp
+  sdu/sdtime.cpp
   sdu/placeholder.cpp
 )
 target_include_directories(sdu PUBLIC ${PUBLIC_INCS})
