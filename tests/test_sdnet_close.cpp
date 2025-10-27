@@ -32,7 +32,7 @@ struct ClientTermSession : public ISSSession {
 };
 
 TEST(sdnet, server_close_triggers_client_terminate) {
-#if defined(_WIN32) || defined(__linux__)
+#if defined(_WIN32) || defined(__linux__) || defined(__APPLE__)
     auto* net = SSNetGetModule(&SDNET_MODULE_VERSION);
     ASSERT_NE(net, nullptr);
     AllParser parser;
@@ -55,7 +55,6 @@ TEST(sdnet, server_close_triggers_client_terminate) {
 
     lis->Stop(); lis->Release(); con->Release(); net->Release();
 #else
-    GTEST_SKIP() << "Windows/Linux only";
+    GTEST_SKIP() << "Windows/Linux/macOS only";
 #endif
 }
-

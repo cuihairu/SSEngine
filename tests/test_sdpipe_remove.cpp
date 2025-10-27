@@ -9,7 +9,7 @@ using namespace SSCP;
 struct DummyReporter2 : public ISSPipeReporter { void SSAPI OnReport(INT32, UINT32) override {} };
 
 TEST(sdpipe, remove_conn_erases_pipe) {
-#if defined(_WIN32) || defined(__linux__)
+#if defined(_WIN32) || defined(__linux__) || defined(__APPLE__)
     auto* net = SSNetGetModule(&SDNET_MODULE_VERSION);
     ASSERT_NE(net, nullptr);
     auto* pipe = SSPipeGetModule(&SDNET_MODULE_VERSION);
@@ -24,6 +24,6 @@ TEST(sdpipe, remove_conn_erases_pipe) {
     EXPECT_EQ(pipe->GetPipe(id), nullptr);
     net->Release(); pipe->Release();
 #else
-    GTEST_SKIP() << "Windows/Linux only";
+    GTEST_SKIP() << "Windows/Linux/macOS only";
 #endif
 }

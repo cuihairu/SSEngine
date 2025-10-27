@@ -19,7 +19,7 @@ struct CapturingReporter : public ISSPipeReporter {
 };
 
 TEST(sdpipe, reporter_success_and_disconnect) {
-#if defined(_WIN32) || defined(__linux__)
+#if defined(_WIN32) || defined(__linux__) || defined(__APPLE__)
     auto* net = SSNetGetModule(&SDNET_MODULE_VERSION);
     ASSERT_NE(net, nullptr);
     auto* pipe = SSPipeGetModule(&SDNET_MODULE_VERSION);
@@ -34,7 +34,6 @@ TEST(sdpipe, reporter_success_and_disconnect) {
     EXPECT_GE(rep.disconnect.load(), 1); // at least client disconnect; server side may also report on close
     net->Release(); pipe->Release();
 #else
-    GTEST_SKIP() << "Windows/Linux only";
+    GTEST_SKIP() << "Windows/Linux/macOS only";
 #endif
 }
-

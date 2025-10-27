@@ -23,7 +23,7 @@ struct ReConnSession : public ISSSession {
 };
 
 TEST(sdnet, reconnect_flow) {
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__linux__) || defined(__APPLE__)
     auto* net = SSNetGetModule(&SDNET_MODULE_VERSION);
     ASSERT_NE(net, nullptr);
 
@@ -58,7 +58,6 @@ TEST(sdnet, reconnect_flow) {
     con->Release();
     net->Release();
 #else
-    GTEST_SKIP() << "Windows only";
+    GTEST_SKIP() << "Windows/Linux/macOS only";
 #endif
 }
-
