@@ -19,6 +19,7 @@ endif()
 add_executable(sse_tests
   test_sdlogger.cpp
   test_sdnet.cpp
+  test_sdnetutils.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE

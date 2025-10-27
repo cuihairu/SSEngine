@@ -18,9 +18,15 @@ if (WIN32)
 endif()
 
 # Placeholder targets for other modules; sources will be added in subsequent steps
-add_library(sdu STATIC sdu/placeholder.cpp)
+add_library(sdu STATIC
+  sdu/sdnetutils.cpp
+  sdu/placeholder.cpp
+)
 target_include_directories(sdu PUBLIC ${PUBLIC_INCS})
 target_compile_features(sdu PUBLIC cxx_std_17)
+if (WIN32)
+  target_link_libraries(sdu PRIVATE ws2_32)
+endif()
 
 add_library(sdnet STATIC sdnet/win_sdnet.cpp)
 target_include_directories(sdnet PUBLIC ${PUBLIC_INCS})
