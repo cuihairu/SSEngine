@@ -3,6 +3,8 @@
 #include "ssengine/sdfile.h"
 #include <chrono>
 #include <ctime>
+#include <chrono>
+#include <ctime>
 #include <string>
 
 using namespace SSCP;
@@ -63,6 +65,26 @@ TEST(sdlogger, file_logger_day_rolling_creates_expected_file) {
     EXPECT_TRUE(SDFileExists(expect.c_str()));
     SDFileRemove(expect.c_str());
 }
+
+#if defined(_WIN32)
+static std::string month_suffix() {
+    using namespace std::chrono;
+    auto now = system_clock::now(); std::time_t tt = system_clock::to_time_t(now);
+    std::tm tm{}; localtime_s(&tm, &tt);
+    char buf[16]; std::snprintf(buf, sizeof(buf), "_%04d%02d", tm.tm_year+1900, tm.tm_mon+1);
+    return std::string(buf);
+}
+
+TEST(sdlogger, file_logger_month_rolling_creates_expected_file) {
+    auto* p = SDCreateFileLogger(&SDLOGGER_VERSION);
+    ASSERT_TRUE(p->Init(".", "sse_month_test", LOG_MODE_MONTH_DIVIDE));
+    EXPECT_TRUE(p->LogText("month rolling"));
+    p->Release();
+    std::string expect = std::string("./sse_month_test") + month_suffix() + ".log";
+    EXPECT_TRUE(SDFileExists(expect.c_str()));
+    SDFileRemove(expect.c_str());
+}
+#endif
 
 TEST(sdlogger, udp_logger_basic_send) {
     auto* p = SDCreateUdpLogger(&SDLOGGER_VERSION);

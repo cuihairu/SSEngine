@@ -93,7 +93,19 @@ private:
 class PipeModule : public ISSPipeModule {
 public:
     PipeModule() : _ref(1), _net(nullptr), _reporter(nullptr), _localId(0) {}
-    ~PipeModule() override {}
+    ~PipeModule() override {
+        // Release listeners
+        for (auto* lis : _listeners) { if (lis) { lis->Stop(); lis->Release(); } }
+        _listeners.clear();
+        // Release connectors
+        for (auto& kv : _connById) { if (kv.second) kv.second->Release(); }
+        _connById.clear();
+        // Delete parsers
+        for (auto& kv : _parserById) { delete kv.second; }
+        _parserById.clear();
+        // Pipes map will be freed via unique_ptr
+        _pipes.clear();
+    }
 
     bool SSAPI Init(const char* /*pszConfFile*/, const char* /*pszIPListFile*/, ISSPipeReporter* pReporter, ISSNet* pNetModule) override {
         _reporter = pReporter; _net = pNetModule; _localId = 0x01000000; // arbitrary

@@ -49,7 +49,15 @@ public:
         ::send(_sock, pBuf, static_cast<int>(dwLen), 0);
 #endif
     }
-    void SSAPI DelaySend(const char* pBuf,UINT32 dwLen) override { Send(pBuf, dwLen); }
+    void SSAPI DelaySend(const char* pBuf,UINT32 dwLen) override {
+        if (!_connected.load() || !pBuf || dwLen==0) return;
+        // fire-and-forget async send
+        std::string buf(pBuf, pBuf + dwLen);
+        SOCKET s = _sock;
+        std::thread([s, buf=std::move(buf)]() {
+            ::send(s, buf.data(), static_cast<int>(buf.size()), 0);
+        }).detach();
+    }
 
     void SSAPI SetOpt(UINT32 dwType, void* pOpt) override {
         if (dwType == CONNECTION_OPT_SOCKOPT && pOpt) {

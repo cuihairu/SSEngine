@@ -34,7 +34,12 @@ public:
         if (!_connected.load() || !pBuf || dwLen==0) return; std::lock_guard<std::mutex> lk(_sendMtx);
         ::send(_sock, pBuf, dwLen, 0);
     }
-    void SSAPI DelaySend(const char* pBuf,UINT32 dwLen) override { Send(pBuf, dwLen); }
+    void SSAPI DelaySend(const char* pBuf,UINT32 dwLen) override {
+        if (!_connected.load() || !pBuf || dwLen==0) return;
+        std::string buf(pBuf, pBuf + dwLen);
+        int s = _sock;
+        std::thread([s, buf=std::move(buf)](){ ::send(s, buf.data(), buf.size(), 0); }).detach();
+    }
     void SSAPI SetOpt(UINT32, void*) override {}
     void SSAPI Disconnect(void) override { _connected.store(false); if (_sock!=-1) { ::shutdown(_sock, SHUT_RDWR); ::close(_sock); _sock=-1; } }
     const UINT32 SSAPI GetRemoteIP(void) override { return _remoteIp; }
@@ -85,7 +90,10 @@ private:
                 ssize_t n = ::recv(_sock, buf, sizeof(buf), 0);
                 if (n > 0) { enqueueRecv(buf, static_cast<size_t>(n)); }
                 else if (n == 0) { postEvent(NetEvent{NetEventType::Terminated, this}); _connected.store(false); break; }
-                else { postEvent(NetEvent{NetEventType::Error, this, std::string(), NET_RECV_ERROR, errno}); _connected.store(false); break; }
+                else {
+                    if (errno == EINTR) continue;
+                    postEvent(NetEvent{NetEventType::Error, this, std::string(), NET_RECV_ERROR, errno}); _connected.store(false); break;
+                }
             }
         });
         _recvThread.detach();
