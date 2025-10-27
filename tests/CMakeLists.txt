@@ -18,6 +18,7 @@ endif()
 # Tests target
 add_executable(sse_tests
   test_sdlogger.cpp
+  test_sdnet.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE

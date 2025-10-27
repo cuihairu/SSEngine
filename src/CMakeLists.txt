@@ -22,9 +22,12 @@ add_library(sdu STATIC sdu/placeholder.cpp)
 target_include_directories(sdu PUBLIC ${PUBLIC_INC})
 target_compile_features(sdu PUBLIC cxx_std_17)
 
-add_library(sdnet STATIC sdnet/placeholder.cpp)
+add_library(sdnet STATIC sdnet/win_sdnet.cpp)
 target_include_directories(sdnet PUBLIC ${PUBLIC_INC})
 target_compile_features(sdnet PUBLIC cxx_std_17)
+if (WIN32)
+  target_link_libraries(sdnet PRIVATE ws2_32)
+endif()
 
 add_library(sdpipe STATIC sdpipe/placeholder.cpp)
 target_include_directories(sdpipe PUBLIC ${PUBLIC_INC})
