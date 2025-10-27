@@ -42,8 +42,11 @@ if (WIN32)
   target_link_libraries(sdnet PRIVATE ws2_32)
 endif()
 
-add_library(sdpipe STATIC sdpipe/placeholder.cpp)
+add_library(sdpipe STATIC
+  sdpipe/pipe_module.cpp
+)
 target_include_directories(sdpipe PUBLIC ${PUBLIC_INCS})
+target_link_libraries(sdpipe PUBLIC sdnet sdu)
 target_compile_features(sdpipe PUBLIC cxx_std_17)
 
 add_library(sddb STATIC sddb/placeholder.cpp)
