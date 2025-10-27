@@ -23,5 +23,8 @@ endif()
 # Libraries (scaffold)
 add_subdirectory(src)
 
-# Tests will be added later per-platform
-# add_subdirectory(tests)
+# Tests
+include(CTest)
+if (BUILD_TESTING)
+  add_subdirectory(tests)
+endif()

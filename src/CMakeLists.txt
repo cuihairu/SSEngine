@@ -11,30 +11,39 @@ add_library(sdlogger STATIC
 )
 
 target_include_directories(sdlogger PUBLIC ${PUBLIC_INC})
+target_compile_features(sdlogger PUBLIC cxx_std_17)
 
 # Placeholder targets for other modules; sources will be added in subsequent steps
 add_library(sdu STATIC sdu/placeholder.cpp)
 target_include_directories(sdu PUBLIC ${PUBLIC_INC})
+target_compile_features(sdu PUBLIC cxx_std_17)
 
 add_library(sdnet STATIC sdnet/placeholder.cpp)
 target_include_directories(sdnet PUBLIC ${PUBLIC_INC})
+target_compile_features(sdnet PUBLIC cxx_std_17)
 
 add_library(sdpipe STATIC sdpipe/placeholder.cpp)
 target_include_directories(sdpipe PUBLIC ${PUBLIC_INC})
+target_compile_features(sdpipe PUBLIC cxx_std_17)
 
 add_library(sddb STATIC sddb/placeholder.cpp)
 target_include_directories(sddb PUBLIC ${PUBLIC_INC})
+target_compile_features(sddb PUBLIC cxx_std_17)
 
 add_library(sdconsole STATIC sdconsole/placeholder.cpp)
 target_include_directories(sdconsole PUBLIC ${PUBLIC_INC})
+target_compile_features(sdconsole PUBLIC cxx_std_17)
 
 add_library(sdgate STATIC sdgate/placeholder.cpp)
 target_include_directories(sdgate PUBLIC ${PUBLIC_INC})
+target_compile_features(sdgate PUBLIC cxx_std_17)
 
 add_library(sdsysteminfo STATIC sdsysteminfo/placeholder.cpp)
 target_include_directories(sdsysteminfo PUBLIC ${PUBLIC_INC})
+target_compile_features(sdsysteminfo PUBLIC cxx_std_17)
 
 add_library(sddebugviewer STATIC sddebugviewer/placeholder.cpp)
 target_include_directories(sddebugviewer PUBLIC ${PUBLIC_INC})
+target_compile_features(sddebugviewer PUBLIC cxx_std_17)
 
 # Platform gating can be added later when real sources are present
