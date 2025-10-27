@@ -112,6 +112,7 @@ public:
     void onTerminated();
     void onRecv(const std::string& buf);
     void onError(int modErr, int sysErr);
+    void releaseSession() { if (_session) { _session->Release(); _session = nullptr; } }
 
     void setQueue(std::queue<NetEvent>* q, std::mutex* m, std::condition_variable* cv) {
         _eq = q; _eqmtx = m; _eqcv = cv;
@@ -196,6 +197,10 @@ void Connection::onEstablished() { if (_session) _session->OnEstablish(); }
 void Connection::onTerminated() { if (_session) _session->OnTerminate(); }
 void Connection::onRecv(const std::string& buf) { if (_session) _session->OnRecv(buf.data(), static_cast<UINT32>(buf.size())); }
 void Connection::onError(int modErr, int sysErr) { if (_session) _session->OnError(modErr, sysErr); }
+// Ensure session release when connection terminated
+// NetImpl will invoke onTerminated via event; after that, release here for safety
+// (idempotent if called once)
+// Note: error path does not force release
 
 class ListenerImpl : public ISSListener {
 public:
@@ -406,7 +411,7 @@ private:
     void dispatch(const NetEvent& ev) {
         switch (ev.type) {
             case NetEventType::Established: ev.conn->onEstablished(); break;
-            case NetEventType::Terminated: ev.conn->onTerminated(); break;
+            case NetEventType::Terminated: ev.conn->onTerminated(); ev.conn->releaseSession(); break;
             case NetEventType::Error: ev.conn->onError(ev.modErr, ev.sysErr); break;
             case NetEventType::Recv: ev.conn->onRecv(ev.data); break;
         }
