@@ -24,6 +24,7 @@ add_executable(sse_tests
 
 target_link_libraries(sse_tests PRIVATE
   sdlogger
+  sdu
 )
 
 if (SSE_USE_SYSTEM_GTEST)
