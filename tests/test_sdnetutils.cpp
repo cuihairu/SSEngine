@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "sdnetutils.h"
-#include "sdtype.h"
+#include "ssengine/sdnetutils.h"
+#include "ssengine/sdtype.h"
 
 using namespace SSCP;
 

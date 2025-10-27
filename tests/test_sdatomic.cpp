@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "sdatomic.h"
+#include "ssengine/sdatomic.h"
 
 using namespace SSCP;
 

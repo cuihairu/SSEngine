@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "sdlogger.h"
-#include "sdfile.h"
+#include "ssengine/sdlogger.h"
+#include "ssengine/sdfile.h"
 #include <chrono>
 #include <ctime>
 #include <string>

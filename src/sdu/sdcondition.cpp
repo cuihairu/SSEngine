@@ -1,8 +1,11 @@
-#include "sdcondition.h"
-#include "sdmutex.h"
+#include "ssengine/sdcondition.h"
+#include "ssengine/sdmutex.h"
 
 #ifdef WINDOWS
 #  include <windows.h>
+#else
+#  include <pthread.h>
+#  include <time.h>
 #endif
 
 namespace SSCP {
@@ -21,7 +24,7 @@ CSDCondition::CSDCondition() {
     mId = ::CreateEvent(NULL, TRUE, FALSE, NULL);
 #  endif
 #else
-    // TODO: pthread_cond_init for non-Windows platform in later phases
+    pthread_cond_init(&mId, nullptr);
 #endif
 }
 
@@ -35,7 +38,7 @@ CSDCondition::~CSDCondition() {
     if (mId) ::CloseHandle(mId);
 #  endif
 #else
-    // TODO: pthread_cond_destroy later
+    pthread_cond_destroy(&mId);
 #endif
 }
 
@@ -53,7 +56,17 @@ BOOL CSDCondition::Wait (CSDMutex &mutex, UINT32 dwMs) {
     return (rc == WAIT_OBJECT_0) ? TRUE : FALSE;
 #  endif
 #else
-    (void)mutex; (void)dwMs; return FALSE;
+    int rc = 0;
+    if (dwMs == SDINFINITE) {
+        rc = pthread_cond_wait(&mId, &mutex.m_mutexId);
+    } else {
+        struct timespec ts; clock_gettime(CLOCK_REALTIME, &ts);
+        ts.tv_sec += dwMs / 1000;
+        ts.tv_nsec += (dwMs % 1000) * 1000000L;
+        if (ts.tv_nsec >= 1000000000L) { ts.tv_sec += 1; ts.tv_nsec -= 1000000000L; }
+        rc = pthread_cond_timedwait(&mId, &mutex.m_mutexId, &ts);
+    }
+    return rc == 0 ? TRUE : FALSE;
 #endif
 }
 
@@ -71,7 +84,7 @@ void CSDCondition::Signal() {
     ::SetEvent(mId);
 #  endif
 #else
-    // TODO: pthread_cond_signal later
+    pthread_cond_signal(&mId);
 #endif
 }
 
@@ -84,9 +97,8 @@ void CSDCondition::Broadcast() {
     ::SetEvent(mId);
 #  endif
 #else
-    // TODO: pthread_cond_broadcast later
+    pthread_cond_broadcast(&mId);
 #endif
 }
 
 } // namespace SSCP
-

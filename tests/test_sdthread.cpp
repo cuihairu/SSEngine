@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "sdthread.h"
-#include "sdtype.h"
+#include "ssengine/sdthread.h"
+#include "ssengine/sdtype.h"
 
 using namespace SSCP;
 

@@ -1,5 +1,8 @@
-#include "sdmutex.h"
-#include "sdcondition.h"
+#include "ssengine/sdmutex.h"
+#include "ssengine/sdcondition.h"
+#ifndef WINDOWS
+#  include <pthread.h>
+#endif
 
 namespace SSCP {
 
@@ -8,7 +11,7 @@ BOOL SDMutexInit(SDMutexId & id) {
     ::InitializeCriticalSection(&id);
     return TRUE;
 #else
-    (void)id; return FALSE;
+    return pthread_mutex_init(&id, nullptr) == 0 ? TRUE : FALSE;
 #endif
 }
 
@@ -16,7 +19,7 @@ void SDMutexLock(SDMutexId & id) {
 #ifdef WINDOWS
     ::EnterCriticalSection(&id);
 #else
-    (void)id;
+    pthread_mutex_lock(&id);
 #endif
 }
 
@@ -24,7 +27,7 @@ void SDMutexUnlock(SDMutexId & id) {
 #ifdef WINDOWS
     ::LeaveCriticalSection(&id);
 #else
-    (void)id;
+    pthread_mutex_unlock(&id);
 #endif
 }
 
@@ -33,7 +36,7 @@ BOOL SDMutexUninit(SDMutexId &id) {
     ::DeleteCriticalSection(&id);
     return TRUE;
 #else
-    (void)id; return FALSE;
+    return pthread_mutex_destroy(&id) == 0 ? TRUE : FALSE;
 #endif
 }
 
@@ -42,24 +45,32 @@ BOOL SDMutexUninit(SDMutexId &id) {
 CSDMutex::CSDMutex() {
 #ifdef WINDOWS
     ::InitializeCriticalSection(&m_mutexId);
+#else
+    pthread_mutex_init(&m_mutexId, nullptr);
 #endif
 }
 
 CSDMutex::~CSDMutex() {
 #ifdef WINDOWS
     ::DeleteCriticalSection(&m_mutexId);
+#else
+    pthread_mutex_destroy(&m_mutexId);
 #endif
 }
 
 void CSDMutex::Lock() {
 #ifdef WINDOWS
     ::EnterCriticalSection(&m_mutexId);
+#else
+    pthread_mutex_lock(&m_mutexId);
 #endif
 }
 
 void CSDMutex::Unlock() {
 #ifdef WINDOWS
     ::LeaveCriticalSection(&m_mutexId);
+#else
+    pthread_mutex_unlock(&m_mutexId);
 #endif
 }
 
@@ -137,27 +148,35 @@ CSDRecursiveMutex::CSDRecursiveMutex() {
 #ifdef WINDOWS
     ::InitializeCriticalSection(&m_mutexId); // CRITICAL_SECTION is recursive
 #else
-    // non-Windows TBD
+    pthread_mutexattr_t attr; pthread_mutexattr_init(&m_mutexAttr);
+    pthread_mutexattr_settype(&m_mutexAttr, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&m_mutexId, &m_mutexAttr);
 #endif
 }
 
 CSDRecursiveMutex::~CSDRecursiveMutex() {
 #ifdef WINDOWS
     ::DeleteCriticalSection(&m_mutexId);
+#else
+    pthread_mutex_destroy(&m_mutexId);
+    pthread_mutexattr_destroy(&m_mutexAttr);
 #endif
 }
 
 void CSDRecursiveMutex::Lock() {
 #ifdef WINDOWS
     ::EnterCriticalSection(&m_mutexId);
+#else
+    pthread_mutex_lock(&m_mutexId);
 #endif
 }
 
 void CSDRecursiveMutex::Unlock() {
 #ifdef WINDOWS
     ::LeaveCriticalSection(&m_mutexId);
+#else
+    pthread_mutex_unlock(&m_mutexId);
 #endif
 }
 
 } // namespace SSCP
-

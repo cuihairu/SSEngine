@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "sdmutex.h"
-#include "sdcondition.h"
+#include "ssengine/sdmutex.h"
+#include "ssengine/sdcondition.h"
 
 using namespace SSCP;
 

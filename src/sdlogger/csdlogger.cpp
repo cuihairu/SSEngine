@@ -1,4 +1,4 @@
-#include "sdlogger.h"
+#include "ssengine/sdlogger.h"
 #include <cstdarg>
 #include <cstdio>
 #include <string>
@@ -57,4 +57,3 @@ void CSDLogger::_Log(UINT32 dwLevel, const char *pszFormat, va_list argptr)
 }
 
 } // namespace SSCP
-

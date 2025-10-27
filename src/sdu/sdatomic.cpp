@@ -1,4 +1,4 @@
-#include "sdatomic.h"
+#include "ssengine/sdatomic.h"
 
 #ifdef _WIN32
 #  include <windows.h>
@@ -129,4 +129,3 @@ void* SSAPI SDAtomicXchgptr(volatile void **pPtr, void *pWith) {
 }
 
 } // namespace SSCP
-

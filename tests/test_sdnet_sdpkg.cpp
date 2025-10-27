@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "sdnet.h"
-#include "sdnet_ver.h"
-#include "sdpkg.h"
+#include "ssengine/sdnet.h"
+#include "ssengine/sdnet_ver.h"
+#include "ssengine/sdpkg.h"
 #include <atomic>
 #include <thread>
 

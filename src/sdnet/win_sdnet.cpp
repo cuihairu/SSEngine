@@ -1,8 +1,8 @@
 // Windows-first minimal implementation using Winsock + background threads.
-#include "sdnet.h"
-#include "sdnetopt.h"
-#include "sdnet_ver.h"
-#include "sdnetutils.h"
+#include "ssengine/sdnet.h"
+#include "ssengine/sdnetopt.h"
+#include "ssengine/sdnet_ver.h"
+#include "ssengine/sdnetutils.h"
 
 #include <string>
 #include <memory>

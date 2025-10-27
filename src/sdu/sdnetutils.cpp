@@ -1,4 +1,4 @@
-#include "sdnetutils.h"
+#include "ssengine/sdnetutils.h"
 #include <string>
 #include <vector>
 #include <cstring>
@@ -132,4 +132,3 @@ INT32 SSAPI SDGetLocalIp(ULONG dwIp[], UINT32 dwCount)
 }
 
 } // namespace SSCP
-

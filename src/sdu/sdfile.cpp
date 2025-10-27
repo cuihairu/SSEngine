@@ -1,5 +1,5 @@
-#include "sdfile.h"
-#include "sdtype.h"
+#include "ssengine/sdfile.h"
+#include "ssengine/sdtype.h"
 
 #include <cstdio>
 #include <cstring>
@@ -351,4 +351,3 @@ BOOL SSAPI SDFileCopy(const CHAR *pszExistFile, const CHAR *pNewFile, BOOL bFail
 }
 
 } // namespace SSCP
-

@@ -1,5 +1,5 @@
 // Windows-first implementation with cross-platform stubs.
-#include "sdlogger.h"
+#include "ssengine/sdlogger.h"
 #include <string>
 #include <mutex>
 #include <fstream>

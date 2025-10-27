@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "sdnet.h"
-#include "sdnet_ver.h"
-#include "sdpkg.h" // use CSDPacketParser for framing
+#include "ssengine/sdnet.h"
+#include "ssengine/sdnet_ver.h"
+#include "ssengine/sdpkg.h" // use CSDPacketParser for framing
 #include <atomic>
 #include <thread>
 
