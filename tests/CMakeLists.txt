@@ -23,6 +23,10 @@ add_executable(sse_tests
   test_sdmutex.cpp
   test_sdtime.cpp
   test_sdfile.cpp
+  test_sdfilemapping.cpp
+  test_sdshmem.cpp
+  test_sdprocess.cpp
+  test_sdregex.cpp
   test_sdatomic.cpp
   test_sdnet_roundtrip.cpp
   test_sdnet_sdpkg.cpp

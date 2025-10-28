@@ -12,13 +12,15 @@ struct SimpleParser : public ISSPacketParser {
 
 struct ReConnSession : public ISSSession {
     std::atomic<int>& estab;
-    ReConnSession(std::atomic<int>& e):estab(e),conn(nullptr){}
+    bool autoDelete;
+    ReConnSession(std::atomic<int>& e, bool selfDelete = false)
+        : estab(e), autoDelete(selfDelete), conn(nullptr){}
     void SSAPI SetConnection(ISSConnection* c) override { conn = c; }
     void SSAPI OnEstablish(void) override { ++estab; }
     void SSAPI OnTerminate(void) override {}
     bool SSAPI OnError(INT32, INT32) override { return true; }
     void SSAPI OnRecv(const char*, UINT32) override {}
-    void SSAPI Release(void) override { delete this; }
+    void SSAPI Release(void) override { if (autoDelete) delete this; }
     ISSConnection* conn;
 };
 
@@ -30,13 +32,13 @@ TEST(sdnet, reconnect_flow) {
     // listener
     SimpleParser parser;
     auto* lis = net->CreateListener(NETIO_ASYNCSELECT);
-    struct Fac : public ISSSessionFactory { ISSSession* SSAPI CreateSession(ISSConnection* c) override { auto* s = new ReConnSession(dummy); s->SetConnection(c); return s; } std::atomic<int> dummy{0}; } fac;
+    struct Fac : public ISSSessionFactory { ISSSession* SSAPI CreateSession(ISSConnection* c) override { auto* s = new ReConnSession(dummy, true); s->SetConnection(c); return s; } std::atomic<int> dummy{0}; } fac;
     lis->SetSessionFactory(&fac);
     lis->SetPacketParser(&parser);
     ASSERT_TRUE(lis->Start("127.0.0.1", 34569));
 
     std::atomic<int> est{0};
-    ReConnSession client(est);
+    ReConnSession client(est, false);
     auto* con = net->CreateConnector(NETIO_ASYNCSELECT);
     con->SetSession(&client);
     con->SetPacketParser(&parser);

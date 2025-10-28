@@ -213,8 +213,10 @@ std::string CSDDateTime::ToString(CHAR * format) {
 BOOL CSDDateTime::FromString(CHAR *pDateTime, CHAR *pFormat) {
     if (!pDateTime || !pFormat) return FALSE;
     std::tm out{};
-    std::istringstream iss(std::string(pDateTime));
-    iss >> std::get_time(&out, pFormat);
+    const char* fmt = reinterpret_cast<const char*>(pFormat);
+    std::string text(reinterpret_cast<const char*>(pDateTime));
+    std::istringstream iss(text);
+    iss >> std::get_time(&out, fmt);
     if (iss.fail()) return FALSE;
     // normalize
     time_t t = std::mktime(&out);

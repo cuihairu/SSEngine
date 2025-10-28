@@ -42,8 +42,8 @@ LONG SSAPI SDGetIpFromName(const CHAR * pszName)
 {
     if (!pszName) return 0;
 #ifdef WINDOWS
-    addrinfoA hints{}; hints.ai_family = AF_INET; hints.ai_socktype = SOCK_STREAM;
-    addrinfoA* res = nullptr;
+    ADDRINFOA hints{}; hints.ai_family = AF_INET; hints.ai_socktype = SOCK_STREAM;
+    ADDRINFOA* res = nullptr;
     if (getaddrinfo(pszName, nullptr, &hints, &res) != 0) return 0;
     ULONG addr = 0;
     for (auto p = res; p; p = p->ai_next) {
@@ -74,7 +74,18 @@ std::string SSAPI SDGetHostName()
 {
     char buf[256] = {0};
 #ifdef WINDOWS
-    if (gethostname(buf, sizeof(buf)) != 0) return std::string();
+    WSADATA wsa{};
+    bool didStartup = false;
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) == 0) {
+        didStartup = true;
+    } else {
+        return std::string();
+    }
+    if (gethostname(buf, sizeof(buf)) != 0) {
+        if (didStartup) WSACleanup();
+        return std::string();
+    }
+    if (didStartup) WSACleanup();
 #else
     if (::gethostname(buf, sizeof(buf)) != 0) return std::string();
 #endif

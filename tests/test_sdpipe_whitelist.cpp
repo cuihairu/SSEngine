@@ -13,6 +13,7 @@ TEST(sdpipe, whitelist_addconn_blocks_disallowed) {
     auto* pipe = SSPipeGetModule(&SDNET_MODULE_VERSION);
     ASSERT_NE(pipe, nullptr);
     ASSERT_TRUE(pipe->Init(nullptr, nullptr, nullptr, net));
+    ASSERT_TRUE(pipe->AddListen("127.0.0.1", 45685));
 
     // Write whitelist with a bogus IP
     const char* f = "iplist.tmp";

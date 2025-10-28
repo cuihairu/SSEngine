@@ -41,15 +41,18 @@ struct ServerFactory : public ISSSessionFactory {
 };
 
 struct ClientSession : public ISSSession {
-    explicit ClientSession(std::atomic<int>& est, std::atomic<int>& recv, std::string& last)
-        : established(est), received(recv), lastMsg(last), conn(nullptr) {}
+    explicit ClientSession(std::atomic<int>& est,
+                           std::atomic<int>& recv,
+                           std::string& last,
+                           bool selfDelete = false)
+        : established(est), received(recv), lastMsg(last), conn(nullptr), autoDelete(selfDelete) {}
     void SSAPI SetConnection(ISSConnection* poConnection) override { conn = poConnection; }
     void SSAPI OnEstablish(void) override { ++established; }
     void SSAPI OnTerminate(void) override {}
     bool SSAPI OnError(INT32, INT32) override { return true; }
     void SSAPI OnRecv(const char* pBuf, UINT32 dwLen) override { lastMsg.assign(pBuf, pBuf + dwLen); ++received; }
-    void SSAPI Release(void) override { delete this; }
-    ISSConnection* conn; std::atomic<int>& established; std::atomic<int>& received; std::string& lastMsg;
+    void SSAPI Release(void) override { if (autoDelete) delete this; }
+    ISSConnection* conn; std::atomic<int>& established; std::atomic<int>& received; std::string& lastMsg; bool autoDelete;
 };
 
 TEST(sdnet, roundtrip_client_server) {
@@ -68,7 +71,7 @@ TEST(sdnet, roundtrip_client_server) {
     listener->SetPacketParser(&parser);
     ASSERT_TRUE(listener->Start("127.0.0.1", 34567));
 
-    ClientSession clientSession(cli_est, cli_recv, cli_last);
+    ClientSession clientSession(cli_est, cli_recv, cli_last, false);
 
     auto* connector = net->CreateConnector(NETIO_ASYNCSELECT);
     connector->SetSession(&clientSession);

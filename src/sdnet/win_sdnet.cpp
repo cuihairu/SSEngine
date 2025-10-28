@@ -12,6 +12,7 @@
 #include <thread>
 #include <atomic>
 #include <condition_variable>
+#include <cstring>
 
 #ifdef _WIN32
 #  include <winsock2.h>
@@ -42,7 +43,7 @@ public:
     Connection():_sock(INVALID_SOCKET),_connected(false),_parser(nullptr),_session(nullptr),_recvThreadRunning(false){
         _remoteIpStr[0] = 0; _localIpStr[0] = 0;
     }
-    ~Connection() override { Disconnect(); }
+    ~Connection() override { disconnectInternal(false); }
 
     bool SSAPI IsConnected(void) override { return _connected.load(); }
 
@@ -72,17 +73,7 @@ public:
         }
     }
 
-    void SSAPI Disconnect(void) override {
-        bool was = _connected.exchange(false);
-#ifdef _WIN32
-        if (_sock != INVALID_SOCKET) {
-            ::shutdown(_sock, SD_BOTH);
-            ::closesocket(_sock);
-            _sock = INVALID_SOCKET;
-        }
-#endif
-        if (was) { postEvent(NetEvent{NetEventType::Terminated, this}); }
-    }
+    void SSAPI Disconnect(void) override { disconnectInternal(true); }
 
     const UINT32 SSAPI GetRemoteIP(void) override { return _remoteIp; }
     const char* SSAPI GetRemoteIPStr(void) override { return _remoteIpStr; }
@@ -132,6 +123,23 @@ public:
     }
 
 private:
+    void disconnectInternal(bool notify) {
+        bool was = _connected.exchange(false);
+#ifdef _WIN32
+        if (_sock != INVALID_SOCKET) {
+            ::shutdown(_sock, SD_BOTH);
+            ::closesocket(_sock);
+            _sock = INVALID_SOCKET;
+        }
+#endif
+        if (was) {
+            if (_recvThread.joinable()) {
+                _recvThread.join();
+            }
+            _recvThreadRunning.store(false);
+            if (notify) { postEvent(NetEvent{NetEventType::Terminated, this}); }
+        }
+    }
     void startRecvThread() {
         if (_recvThreadRunning.load()) return;
         _recvThreadRunning.store(true);
@@ -154,8 +162,8 @@ private:
                 }
             }
 #endif
+            _recvThreadRunning.store(false);
         });
-        _recvThread.detach();
     }
 
     void postEvent(const NetEvent& ev) {
@@ -179,6 +187,7 @@ private:
     std::mutex _sendMtx;
     std::thread _recvThread;
     std::atomic<bool> _recvThreadRunning;
+    std::string _accum;
 
     UINT32 _remoteIp{0}; UINT16 _remotePort{0}; char _remoteIpStr[32];
     UINT32 _localIp{0};  UINT16 _localPort{0};  char _localIpStr[32];

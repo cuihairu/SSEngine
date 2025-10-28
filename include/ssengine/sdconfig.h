@@ -10,10 +10,14 @@
 
 #define   SDENT_HAS_RECV_QUEUE  // default is defined 
 
-#if defined(WIN32) || defined(WIN64)
-#define WINDOWS
+#if defined(WIN32) || defined(WIN64) || defined(_WIN32) || defined(_WIN64)
+#  ifndef WINDOWS
+#    define WINDOWS
+#  endif
 #else
-#define LINUX
+#  ifndef LINUX
+#    define LINUX
+#  endif
 #endif
 
 

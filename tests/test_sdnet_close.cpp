@@ -21,13 +21,15 @@ struct CloseOnEstablish : public ISSSession {
 
 struct ClientTermSession : public ISSSession {
     std::atomic<int>& term;
-    ClientTermSession(std::atomic<int>& t):term(t),conn(nullptr){}
+    bool autoDelete;
+    ClientTermSession(std::atomic<int>& t, bool selfDelete = false)
+        : term(t), autoDelete(selfDelete), conn(nullptr) {}
     void SSAPI SetConnection(ISSConnection* c) override { conn=c; }
     void SSAPI OnEstablish(void) override {}
     void SSAPI OnTerminate(void) override { ++term; }
     bool SSAPI OnError(INT32, INT32) override { return true; }
     void SSAPI OnRecv(const char*, UINT32) override {}
-    void SSAPI Release(void) override { delete this; }
+    void SSAPI Release(void) override { if (autoDelete) delete this; }
     ISSConnection* conn;
 };
 

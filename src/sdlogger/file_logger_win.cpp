@@ -6,6 +6,13 @@
 #include <filesystem>
 #include <chrono>
 #include <atomic>
+#include <memory>
+#include <cstring>
+
+#if defined(_WIN32)
+#  include <winsock2.h>
+#  include <ws2tcpip.h>
+#endif
 
 namespace fs = std::filesystem;
 
@@ -112,11 +119,8 @@ private:
 
 // --------------- UDP/TCP Logger ----------------
 
-#ifdef WINDOWS
+#if defined(_WIN32)
 // Windows sockets helpers
-#  include <winsock2.h>
-#  include <ws2tcpip.h>
-
 struct WsaRef {
     static std::atomic<int>& refcnt() { static std::atomic<int> c{0}; return c; }
     WsaRef() { ensure(); }
@@ -143,7 +147,7 @@ class UdpLoggerImpl : public ISSUdpLogger {
 public:
     UdpLoggerImpl()
       : _inited(false)
-#ifdef WINDOWS
+#if defined(_WIN32)
       , _sock(INVALID_SOCKET)
 #endif
     {}
@@ -153,7 +157,7 @@ public:
     bool SSAPI Init(const char* pszIp, const UINT16 wPort, UINT8 /*byServerType*/, const char* pszErrorfile = NULL) override {
         if (!pszIp || wPort == 0) return false;
         _errorfile = pszErrorfile ? pszErrorfile : std::string();
-#ifdef WINDOWS
+#if defined(_WIN32)
         _wsa = std::make_unique<WsaRef>();
         _sock = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
         if (_sock == INVALID_SOCKET) return false;
@@ -176,7 +180,7 @@ public:
 
     bool SSAPI LogText(const char* pszLog) override {
         if (!_inited || !pszLog) return false;
-#ifdef WINDOWS
+#if defined(_WIN32)
         int sent = ::sendto(_sock, pszLog, static_cast<int>(std::strlen(pszLog)), 0, reinterpret_cast<sockaddr*>(&_addr), sizeof(_addr));
         if (sent == SOCKET_ERROR) return fallbackFile(pszLog, std::strlen(pszLog));
         return true;
@@ -187,7 +191,7 @@ public:
 
     bool SSAPI LogBinary(const UINT8* pLog, UINT32 dwLen) override {
         if (!_inited || !pLog) return false;
-#ifdef WINDOWS
+#if defined(_WIN32)
         int sent = ::sendto(_sock, reinterpret_cast<const char*>(pLog), static_cast<int>(dwLen), 0, reinterpret_cast<sockaddr*>(&_addr), sizeof(_addr));
         if (sent == SOCKET_ERROR) return fallbackFile(reinterpret_cast<const char*>(pLog), dwLen);
         return true;
@@ -198,7 +202,7 @@ public:
 
 private:
     void close() {
-#ifdef WINDOWS
+#if defined(_WIN32)
         if (_sock != INVALID_SOCKET) {
             ::closesocket(_sock); _sock = INVALID_SOCKET;
         }
@@ -218,7 +222,7 @@ private:
 private:
     bool _inited;
     std::string _errorfile;
-#ifdef WINDOWS
+#if defined(_WIN32)
     std::unique_ptr<WsaRef> _wsa;
     SOCKET _sock;
     sockaddr_in _addr{};
@@ -229,7 +233,7 @@ class TcpLoggerImpl : public ISSTcpLogger {
 public:
     TcpLoggerImpl()
       : _inited(false)
-#ifdef WINDOWS
+#if defined(_WIN32)
       , _sock(INVALID_SOCKET)
 #endif
     {}
@@ -238,7 +242,7 @@ public:
     bool SSAPI Init(const char* pszIp, const UINT16 wPort, UINT8 /*byServerType*/, const char* pszErrorfile = NULL) override {
         if (!pszIp || wPort == 0) return false;
         _errorfile = pszErrorfile ? pszErrorfile : std::string();
-#ifdef WINDOWS
+#if defined(_WIN32)
         _wsa = std::make_unique<WsaRef>();
         _sock = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         if (_sock == INVALID_SOCKET) return false;
@@ -258,7 +262,7 @@ public:
 
     bool SSAPI LogText(const char* pszLog) override {
         if (!_inited || !pszLog) return false;
-#ifdef WINDOWS
+#if defined(_WIN32)
         int sent = ::send(_sock, pszLog, static_cast<int>(std::strlen(pszLog)), 0);
         if (sent == SOCKET_ERROR) return fallbackFile(pszLog, std::strlen(pszLog));
         return true;
@@ -269,7 +273,7 @@ public:
 
     bool SSAPI LogBinary(const UINT8* pLog, UINT32 dwLen) override {
         if (!_inited || !pLog) return false;
-#ifdef WINDOWS
+#if defined(_WIN32)
         int sent = ::send(_sock, reinterpret_cast<const char*>(pLog), static_cast<int>(dwLen), 0);
         if (sent == SOCKET_ERROR) return fallbackFile(reinterpret_cast<const char*>(pLog), dwLen);
         return true;
@@ -280,7 +284,7 @@ public:
 
 private:
     void close() {
-#ifdef WINDOWS
+#if defined(_WIN32)
         if (_sock != INVALID_SOCKET) { ::closesocket(_sock); _sock = INVALID_SOCKET; }
         _wsa.reset();
 #endif
@@ -298,7 +302,7 @@ private:
 private:
     bool _inited;
     std::string _errorfile;
-#ifdef WINDOWS
+#if defined(_WIN32)
     std::unique_ptr<WsaRef> _wsa;
     SOCKET _sock;
 #endif

@@ -15,7 +15,9 @@ struct PkgParser : public ISSPacketParser {
 
 struct PkgSession : public ISSSession {
     std::atomic<int>& cnt;
-    PkgSession(std::atomic<int>& c):cnt(c),conn(nullptr){}
+    bool autoDelete;
+    PkgSession(std::atomic<int>& c, bool selfDelete)
+        : cnt(c), autoDelete(selfDelete), conn(nullptr) {}
     void SSAPI SetConnection(ISSConnection* c) override { conn = c; }
     void SSAPI OnEstablish(void) override {}
     void SSAPI OnTerminate(void) override {}
@@ -26,7 +28,7 @@ struct PkgSession : public ISSSession {
         EXPECT_NE(CheckSDPkgHead(pBuf, dwLen), -1);
         ++cnt;
     }
-    void SSAPI Release(void) override { delete this; }
+    void SSAPI Release(void) override { if (autoDelete) delete this; }
     ISSConnection* conn;
 };
 
@@ -50,7 +52,7 @@ TEST(sdnet, sdpkg_sticky_and_split) {
     auto* listener = net->CreateListener(NETIO_ASYNCSELECT);
     struct Factory : public ISSSessionFactory {
         std::atomic<int>& r; PkgParser& p; Factory(std::atomic<int>& rr, PkgParser& pp):r(rr),p(pp){}
-        ISSSession* SSAPI CreateSession(ISSConnection* c) override { auto* s = new PkgSession(r); s->SetConnection(c); return s; }
+        ISSSession* SSAPI CreateSession(ISSConnection* c) override { auto* s = new PkgSession(r, true); s->SetConnection(c); return s; }
     } fac(svr_recv, parser);
     listener->SetSessionFactory(&fac);
     listener->SetPacketParser(&parser);
@@ -58,7 +60,7 @@ TEST(sdnet, sdpkg_sticky_and_split) {
 
     // Connect client
     std::atomic<int> cli_est{0};
-    PkgSession client(cli_est); // reuse PkgSession as client session to get connection pointer
+    PkgSession client(cli_est, false); // reuse PkgSession as client session to get connection pointer
     auto* connector = net->CreateConnector(NETIO_ASYNCSELECT);
     connector->SetSession(&client);
     connector->SetPacketParser(&parser);

@@ -19,14 +19,15 @@ struct EchoSession : public ISSSession {
 };
 
 struct CountSession : public ISSSession {
-    std::atomic<int>& cnt; std::string& last; ISSConnection* conn{nullptr};
-    CountSession(std::atomic<int>& c, std::string& s):cnt(c),last(s){}
+    std::atomic<int>& cnt; std::string& last; ISSConnection* conn{nullptr}; bool autoDelete;
+    CountSession(std::atomic<int>& c, std::string& s, bool selfDelete = false)
+        : cnt(c), last(s), autoDelete(selfDelete) {}
     void SSAPI SetConnection(ISSConnection* c) override { conn=c; }
     void SSAPI OnEstablish(void) override {}
     void SSAPI OnTerminate(void) override {}
     bool SSAPI OnError(INT32, INT32) override { return true; }
     void SSAPI OnRecv(const char* p, UINT32 n) override { last.assign(p, p+n); ++cnt; }
-    void SSAPI Release(void) override { delete this; }
+    void SSAPI Release(void) override { if (autoDelete) delete this; }
 };
 
 TEST(sdnet, delay_send_roundtrip) {
@@ -59,4 +60,3 @@ TEST(sdnet, delay_send_roundtrip) {
     GTEST_SKIP() << "Windows/Linux/macOS only";
 #endif
 }
-

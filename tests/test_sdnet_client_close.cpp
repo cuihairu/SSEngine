@@ -27,7 +27,7 @@ struct ClientCloseSession : public ISSSession {
     void SSAPI OnTerminate(void) override {}
     bool SSAPI OnError(INT32, INT32) override { return true; }
     void SSAPI OnRecv(const char*, UINT32) override {}
-    void SSAPI Release(void) override { delete this; }
+    void SSAPI Release(void) override {}
 };
 
 TEST(sdnet, client_close_triggers_server_terminate) {
@@ -55,4 +55,3 @@ TEST(sdnet, client_close_triggers_server_terminate) {
     GTEST_SKIP() << "Windows/Linux/macOS only";
 #endif
 }
-

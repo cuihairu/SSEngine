@@ -27,6 +27,10 @@ add_library(sdu STATIC
   sdu/sdtime.cpp
   sdu/sdfile.cpp
   sdu/sdatomic.cpp
+  sdu/sdfilemapping.cpp
+  sdu/sdshmem.cpp
+  sdu/sdprocess.cpp
+  sdu/sdregex.cpp
   sdu/placeholder.cpp
 )
 target_include_directories(sdu PUBLIC ${PUBLIC_INCS})

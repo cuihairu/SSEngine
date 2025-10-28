@@ -18,7 +18,7 @@ Copyright (C) 2025 Cui Hairu. All rights reserved.
 *
 **/
 
-#if defined(WIN32) || defined(WIN64)
+#if !defined(WINDOWS) && (defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64))
 #define WINDOWS
 #elif defined(__linux__)
 #if defined(__x86_64__)
@@ -34,6 +34,12 @@ Copyright (C) 2025 Cui Hairu. All rights reserved.
 #endif
 
 #ifdef WINDOWS
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0601
+#endif
 #include <Windows.h>
 #include <BaseTsd.h>
 typedef double DOUBLE;
