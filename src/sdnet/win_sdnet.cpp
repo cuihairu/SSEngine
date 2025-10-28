@@ -215,8 +215,8 @@ void Connection::enqueueRecv(const char* data, size_t len) {
     }
 }
 
-void Connection::onEstablished() { if (_session) _session->OnEstablish(); }
-void Connection::onTerminated() { if (_session) _session->OnTerminate(); }
+void Connection::onEstablished() { if (_session) { fprintf(stderr, "[Connection] OnEstablish local=%s remote=%s\n", _localIpStr, _remoteIpStr); _session->OnEstablish(); } }
+void Connection::onTerminated() { if (_session) { fprintf(stderr, "[Connection] OnTerminate local=%s remote=%s\n", _localIpStr, _remoteIpStr); _session->OnTerminate(); } }
 void Connection::onRecv(const std::string& buf) { if (_session) _session->OnRecv(buf.data(), static_cast<UINT32>(buf.size())); }
 void Connection::onError(int modErr, int sysErr) { if (_session) _session->OnError(modErr, sysErr); }
 // Ensure session release when connection terminated
@@ -255,7 +255,14 @@ public:
         if (::bind(ls, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) == SOCKET_ERROR) { ::closesocket(ls); return false; }
         if (::listen(ls, SOMAXCONN) == SOCKET_ERROR) { ::closesocket(ls); return false; }
         _sock = ls; _running.store(true);
-        _th = std::thread([this](){ this->acceptLoop(); }); _th.detach();
+        // Run accept loop on background thread; keep joinable for clean shutdown
+        if (_th.joinable()) {
+            // Shouldn't happen under normal flow; ensure it's stopped
+            _running.store(false);
+            _th.join();
+            _running.store(true);
+        }
+        _th = std::thread([this](){ this->acceptLoop(); });
         return true;
 #else
         (void)pszIP; (void)wPort; (void)bReUseAddr; return false;
@@ -266,6 +273,9 @@ public:
 #ifdef _WIN32
         if (_sock != INVALID_SOCKET) { ::closesocket(_sock); _sock = INVALID_SOCKET; }
 #endif
+        if (_th.joinable()) {
+            _th.join();
+        }
         return true;
     }
     void SSAPI Release(void) override { delete this; }

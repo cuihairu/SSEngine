@@ -18,3 +18,7 @@ sdmacros.h - sdu相关的编译宏开关
 #define SDU_WITH_LIBICONV 1
 
 #endif //
+#ifdef WINDOWS
+#  undef SDU_WITH_LIBICONV
+#  define SDU_WITH_LIBICONV 0
+#endif

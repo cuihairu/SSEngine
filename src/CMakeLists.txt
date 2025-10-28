@@ -21,6 +21,8 @@ endif()
 # Placeholder targets for other modules; sources will be added in subsequent steps
 add_library(sdu STATIC
   sdu/sdnetutils.cpp
+  sdu/sddir.cpp
+  sdu/sdserverid.cpp
   sdu/sdthread.cpp
   sdu/sdmutex.cpp
   sdu/sdcondition.cpp

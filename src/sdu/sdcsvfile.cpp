@@ -101,27 +101,9 @@ INT32 CSDCsvBase::ReadData(INT32 line, INT32 item, CHAR* data, INT32 size) {
     data[size - 1] = '\0';
     return 0;
 }
-
-template<>
-INT32 CSDCsvBase::ReadData<std::string>(INT32 line, INT32 item, std::string& strItem) {
-    if (line < 0 || line >= static_cast<INT32>(m_vLine.size())) {
-        return -1;
-    }
-    auto& row = m_vLine[line];
-    if (item < 0 || item >= static_cast<INT32>(row.size())) {
-        return -1;
-    }
-    strItem = row[item];
-    return 0;
-}
-
-template<>
-INT32 CSDCsvBase::ReadData<std::string>(INT32 line, INT32 item, std::string* strItem) {
-    if (!strItem) {
-        return -1;
-    }
-    return ReadData<std::string>(line, item, *strItem);
-}
+// Note: overloads for std::string are defined inline in the header to avoid
+// duplicate symbol issues on Windows. Do not provide explicit specializations
+// here.
 
 } // namespace SSCP
 

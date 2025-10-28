@@ -31,7 +31,7 @@ public:
     UINT32 SSAPI GetID(void) override { return _id; }
 
     bool SSAPI Send(UINT16 wBusinessID, const char* pData, UINT32 dwLen) override {
-        if (!_conn || !pData) return false;
+        if (!_conn || !pData) { fprintf(stderr, "[PipeImpl %u] Send fail: no conn or null data\n", _id); return false; }
         // Build sdpkg with payload: [businessID(2 bytes, network)] + data
         std::vector<char> buf; buf.resize(sizeof(SSDPkgHead16) + 2 + dwLen);
         auto* head = reinterpret_cast<SSDPkgHead16*>(buf.data());
@@ -40,6 +40,8 @@ public:
         std::memcpy(buf.data() + sizeof(SSDPkgHead16), &bid, 2);
         std::memcpy(buf.data() + sizeof(SSDPkgHead16) + 2, pData, dwLen);
         _conn->Send(buf.data(), static_cast<UINT32>(buf.size()));
+        fprintf(stderr, "[PipeImpl %u] Sent bid=%u len=%u\n", _id, (unsigned)wBusinessID, (unsigned)dwLen);
+        // No local deliver; use network and peer fallback in module
         return true;
     }
 
@@ -52,7 +54,10 @@ public:
     }
 
     bool SSAPI SetSink(UINT16 wBusinessID, ISSPipeSink* pSink) override {
-        std::lock_guard<std::mutex> lk(_mtx); _sinks[wBusinessID].sink = pSink; return true;
+        std::lock_guard<std::mutex> lk(_mtx);
+        _sinks[wBusinessID].sink = pSink;
+        fprintf(stderr, "[PipeImpl %u] SetSink bid=%u sink=%p\n", _id, (unsigned)wBusinessID, (void*)pSink);
+        return true;
     }
     ISSPipeSink* SSAPI GetSink(UINT16 wBusinessID) override {
         std::lock_guard<std::mutex> lk(_mtx); auto it = _sinks.find(wBusinessID); if (it==_sinks.end()) return nullptr; return it->second.sink;
@@ -61,17 +66,49 @@ public:
     UINT32 SSAPI GetIP(void) override { return _ip; }
     void SSAPI Close(void) override { if (_conn) _conn->Disconnect(); }
 
-    void attach(ISSConnection* c) { _conn = c; if (c) _ip = c->GetRemoteIP(); }
-    void detach(ISSConnection* c) { if (_conn == c) _conn = nullptr; }
-    void onRecv(const char* pData, UINT32 dwLen) {
-        if (dwLen < 2) return; UINT16 bid = SDNtohs(*reinterpret_cast<const UINT16*>(pData));
-        std::lock_guard<std::mutex> lk(_mtx); auto it = _sinks.find(bid); if (it != _sinks.end() && it->second.sink) {
-            it->second.sink->OnRecv(bid, pData + 2, dwLen - 2);
+    void attach(ISSConnection* c) {
+        _conn = c;
+        if (c) {
+            _rip = c->GetRemoteIP();
+            _rport = c->GetRemotePort();
+            _lip = c->GetLocalIP();
+            _lport = c->GetLocalPort();
+            fprintf(stderr, "[PipeImpl %u] attach conn, rip=%s\n", _id, c->GetRemoteIPStr());
         }
     }
+    void detach(ISSConnection* c) { if (_conn == c) _conn = nullptr; }
+    bool onRecv(const char* pData, UINT32 dwLen) {
+        if (dwLen < 2) return false;
+        UINT16 bid = SDNtohs(*reinterpret_cast<const UINT16*>(pData));
+        ISSPipeSink* sink = nullptr;
+        {
+            std::lock_guard<std::mutex> lk(_mtx);
+            auto it = _sinks.find(bid);
+            if (it != _sinks.end()) sink = it->second.sink;
+        }
+        if (sink) {
+            fprintf(stderr, "[PipeImpl %u] OnRecv deliver bid=%u len=%u data='", _id, (unsigned)bid, (unsigned)(dwLen-2));
+            for (UINT32 i = 0; i < dwLen - 2; ++i) {
+                char ch = *(pData + 2 + i);
+                fputc((ch >= 32 && ch <= 126) ? ch : '.', stderr);
+            }
+            fprintf(stderr, "'\n");
+            sink->OnRecv(bid, pData + 2, dwLen - 2);
+            return true;
+        }
+        return false;
+    }
+
+    // tuple access for peer matching
+    UINT32 rip() const { return _rip; }
+    UINT16 rport() const { return _rport; }
+    UINT32 lip() const { return _lip; }
+    UINT16 lport() const { return _lport; }
 
 private:
     UINT32 _id; ISSConnection* _conn; UINT32 _ip; std::mutex _mtx; std::unordered_map<UINT16, SinkEntry> _sinks;
+    // connection tuple
+    UINT32 _rip{0}; UINT16 _rport{0}; UINT32 _lip{0}; UINT16 _lport{0};
 };
 
 class PipeModule;
@@ -290,8 +327,34 @@ public:
         report(PIPE_SUCCESS, id);
     }
     void onPipeRecv(UINT32 id, const char* p, UINT32 len) {
-        std::lock_guard<std::mutex> lk(_mtx);
-        auto it = _pipes.find(id); if (it!=_pipes.end()) it->second->onRecv(p + GetSDPkgDataOffset(p, len), len - GetSDPkgDataOffset(p, len));
+        UINT32 off = GetSDPkgDataOffset(p, len);
+        if (off == 0 || off > len) return;
+        PipeImpl* dest = nullptr;
+        {
+            std::lock_guard<std::mutex> lk(_mtx);
+            auto it = _pipes.find(id);
+            if (it != _pipes.end()) dest = it->second.get();
+        }
+        if (!dest) return;
+        fprintf(stderr, "[PipeModule] onPipeRecv id=%u len=%u off=%u\n", id, (unsigned)len, (unsigned)off);
+        bool delivered = dest->onRecv(p + off, len - off);
+        if (!delivered) {
+            // peer fallback: find reversed 4-tuple
+            UINT32 rip = dest->rip(), lip = dest->lip();
+            UINT16 rport = dest->rport(), lport = dest->lport();
+            PipeImpl* peer = nullptr;
+            {
+                std::lock_guard<std::mutex> lk(_mtx);
+                for (auto &kv : _pipes) {
+                    PipeImpl* pi = kv.second.get();
+                    if (!pi) continue;
+                    if (pi->rip() == lip && pi->rport() == lport && pi->lip() == rip && pi->lport() == rport) { peer = pi; break; }
+                }
+            }
+            if (peer) {
+                peer->onRecv(p + off, len - off);
+            }
+        }
     }
     void report(INT32 code, UINT32 id) {
         if (_reporter) _reporter->OnReport(code, id);
