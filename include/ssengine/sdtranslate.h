@@ -1,7 +1,5 @@
 /******************************************************************************
 Copyright (C) 2025 Cui Hairu. All rights reserved.
-
-
 ******************************************************************************/
 
 #ifndef SDU_TRANSLATE_H
@@ -9,47 +7,40 @@ Copyright (C) 2025 Cui Hairu. All rights reserved.
 /**
 * @file sdtranslate.h
 * @author edeng_2000
-* @brief sdu ∞Ê±æ–≈œ¢
-*
-**/
+* @brief Character set translation helpers
+*/
 
 #include "sdmacros.h"
 #include "sdtype.h"
 #include <string>
-using namespace std ;
 
 #if SDU_WITH_LIBICONV
-#include "iconv.h"
-#include "localcharset.h"
-
-namespace SSCP
-{
-	class CSDTranslate
-	{
-	public:
-		CSDTranslate();
-		
-		~CSDTranslate();
-
-
-	public:
-		size_t Translate(CHAR *cpSrc, 
-						 size_t nSrcLen, 
-						 CHAR * cpDesc,
-						 size_t nDescLen ) ;
-		bool   Init(const char *cpFromCharset,const char *cpToCharset);
-	private:
-		iconv_t    m_hHandle;
-		string	   m_strFromCharset ;
-		string	   m_strToCharset ;
-	};
-
-
-	const CHAR * SSAPI SDGetLocaleCharset (void);
-}
-
-
-
+#  include "iconv.h"
+#  include "localcharset.h"
+#else
+#  include <cstring>
 #endif
 
+namespace SSCP {
+
+class CSDTranslate {
+public:
+    CSDTranslate();
+    ~CSDTranslate();
+
+    size_t Translate(char* cpSrc, size_t nSrcLen, char* cpDesc, size_t nDescLen);
+    bool Init(const char* cpFromCharset, const char* cpToCharset);
+
+private:
+#if SDU_WITH_LIBICONV
+    iconv_t m_handle;
+    std::string m_from;
+    std::string m_to;
 #endif
+};
+
+const char* SDGetLocaleCharset(void);
+
+} // namespace SSCP
+
+#endif // SDU_TRANSLATE_H

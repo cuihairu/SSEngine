@@ -13,6 +13,7 @@ Copyright (C) 2025 Cui Hairu. All rights reserved.
 *
 **/
 #include "sdtime.h"
+#include <cstdio>
 
 #define   SDSAFE_NEW            new 
 #define   SDSAFE_DELETE         delete 

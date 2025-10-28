@@ -15,6 +15,7 @@ sdconfigure.h - 配置文件读取类,使用xml或ini文件
 **/
 #include <string>
 #include <vector>
+#include <sstream>
 #include "detail/sdxmlconfigure.h"
 #include "detail/sdiniconfigure.h"
 #include "detail/sdmapconfigure.h"
@@ -46,11 +47,7 @@ namespace SSCP
     * @param value : 输入的需要转换的字符串
     * @return 转换后的值
     */
-    template <>
-    INT32 SDConvterTrait<INT32>( const std::string & value )
-    {
-        return atoi(value.c_str());
-    };
+    template <> inline INT32 SDConvterTrait<INT32>(const std::string& value) { return atoi(value.c_str()); }
 
     /**
     *@brief 配置文件读取类

@@ -269,6 +269,7 @@ namespace SSCP
         CHAR    *m_pBuf;
         INT32   m_bufLen;
         INT32   m_pos;
+        INT32   m_readPos;
     };
 
     /** @} */

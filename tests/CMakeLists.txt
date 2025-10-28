@@ -40,6 +40,7 @@ add_executable(sse_tests
   test_sdnet_client_close.cpp
   test_sdalgorithm.cpp
   test_sdcsvfile.cpp
+  test_sddatastream.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE

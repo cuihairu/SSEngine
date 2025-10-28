@@ -16,6 +16,8 @@ Copyright (C) 2025 Cui Hairu. All rights reserved.
 #include "sdtype.h"
 #include <string>
 #include <string.h>
+#include <vector>
+#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
@@ -848,3 +850,9 @@ namespace SSCP
 
 #endif
 
+
+namespace SSCP {
+std::string ToLower(std::string value);
+std::string ToUpper(std::string value);
+std::vector<std::string> Split(const std::string& input, char delim);
+}

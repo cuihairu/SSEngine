@@ -15,6 +15,13 @@ sderrno.h - 设置,获取系统错误码操作的API封装
 *
 **/
 #include "sdtype.h"
+#ifdef WINDOWS
+#  include <windows.h>
+#  include <cstring>
+#else
+#  include <errno.h>
+#  include <cstring>
+#endif
 /**
 * @brief Type for specifying an error or status code.
 */

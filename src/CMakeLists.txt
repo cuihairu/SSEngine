@@ -32,6 +32,16 @@ add_library(sdu STATIC
   sdu/sdprocess.cpp
   sdu/sdregex.cpp
   sdu/sdcsvfile.cpp
+  sdu/sddatastream.cpp
+  sdu/sdloopbuffer.cpp
+  sdu/sdrandom.cpp
+  sdu/sddataqueue.cpp
+  sdu/sdconfig.cpp
+  sdu/sdconfigure.cpp
+  sdu/sdthreadctrl.cpp
+  sdu/sdtimer.cpp
+  sdu/sdtranslate.cpp
+  sdu/sdstring.cpp
   sdu/sdthreadpool.cpp
   sdu/placeholder.cpp
 )

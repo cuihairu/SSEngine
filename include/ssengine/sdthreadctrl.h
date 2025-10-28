@@ -124,6 +124,8 @@ public:
     virtual void SSAPI Release(void) = 0;
 };
 
+ISSThreadCtrl* CreateThreadCtrl(ISSThread* thread);
+
 }
 
 #endif
