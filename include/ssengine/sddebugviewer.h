@@ -7,6 +7,14 @@
 namespace SSCP
 {
 
+	using SSSCPVersion = SSSVersion;
+
+#ifndef WINDOWS
+using WORD = UINT16;
+using DWORD = unsigned long;
+using UINT = unsigned int;
+#endif
+
 	const char SDDEBUGVIEWER_MODULENAME[] = "SSDebugViewer";
 
 	const SSSCPVersion	SDDEBUGVIEWER_VERSION = {0,3,0,1};

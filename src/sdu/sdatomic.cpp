@@ -119,7 +119,7 @@ void* SSAPI SDAtomicCasptr(volatile void **pPtr, void *pWith, const void *pCmp) 
     return InterlockedCompareExchangePointer(const_cast<PVOID*>(pPtr), pWith, const_cast<void*>(pCmp));
 #else
     void* expected = const_cast<void*>(pCmp);
-    __atomic_compare_exchange_n(pPtr, &expected, pWith, false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
+    __atomic_compare_exchange_n(const_cast<void**>(pPtr), &expected, pWith, false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
     return expected;
 #endif
 }
@@ -128,7 +128,7 @@ void* SSAPI SDAtomicXchgptr(volatile void **pPtr, void *pWith) {
 #ifdef _WIN32
     return InterlockedExchangePointer(const_cast<PVOID*>(pPtr), pWith);
 #else
-    return __atomic_exchange_n(pPtr, pWith, __ATOMIC_SEQ_CST);
+    return __atomic_exchange_n(const_cast<void**>(pPtr), pWith, __ATOMIC_SEQ_CST);
 #endif
 }
 

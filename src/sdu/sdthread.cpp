@@ -6,6 +6,7 @@
 #  include <process.h>
 #else
 #  include <pthread.h>
+#  include <functional>
 #  include <map>
 #  include <mutex>
 #  include <atomic>
@@ -20,9 +21,9 @@ SDTHREADID SSAPI SDGetThreadId() {
 #ifdef WINDOWS
     return static_cast<SDTHREADID>(::GetCurrentThreadId());
 #else
-    // Derive an integer id from pthread_self
     auto self = pthread_self();
-    return static_cast<SDTHREADID>(reinterpret_cast<intptr_t>(self));
+    size_t hv = std::hash<pthread_t>{}(self);
+    return static_cast<SDTHREADID>(hv & 0x7fffffffu);
 #endif
 }
 
@@ -58,7 +59,7 @@ SDHANDLE SSAPI SDCreateThread(
     if (rc != 0) return SDINVALID_HANDLE;
     int h;
     { std::lock_guard<std::mutex> lk(g_threg.mtx); h = g_threg.next++; g_threg.tbl[h] = tid; }
-    if (pThreadId) *pThreadId = static_cast<SDTHREADID>(reinterpret_cast<intptr_t>(tid));
+    if (pThreadId) *pThreadId = static_cast<SDTHREADID>(h);
     (void)bSuspend; // not supported on POSIX
     return h;
 #endif

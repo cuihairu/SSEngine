@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include <fstream>
 #include <memory>
+#include <cstring>
 
 namespace SSCP {
 

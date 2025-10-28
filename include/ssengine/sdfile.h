@@ -14,6 +14,9 @@ sdfile.h - ÎÄ¼þ²Ù×÷API
 #include <string>
 #include <time.h>
 #include <vector>
+#ifndef WINDOWS
+#include <unistd.h>
+#endif
 
 /**
 * @file sdfile.h

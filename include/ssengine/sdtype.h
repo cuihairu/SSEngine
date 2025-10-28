@@ -21,12 +21,18 @@ Copyright (C) 2025 Cui Hairu. All rights reserved.
 #if !defined(WINDOWS) && (defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64))
 #define WINDOWS
 #elif defined(__linux__)
-#if defined(__x86_64__)
-#define LINUX64
-#else
-#define LINUX32
-#endif
-#define LINUX
+#  if defined(__x86_64__)
+#    ifndef LINUX64
+#      define LINUX64
+#    endif
+#  else
+#    ifndef LINUX32
+#      define LINUX32
+#    endif
+#  endif
+#  ifndef LINUX
+#    define LINUX
+#  endif
 #endif //__linux__
 
 #ifndef WIN32_LEAN_AND_MEAN

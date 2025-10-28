@@ -31,6 +31,8 @@ add_library(sdu STATIC
   sdu/sdshmem.cpp
   sdu/sdprocess.cpp
   sdu/sdregex.cpp
+  sdu/sdcsvfile.cpp
+  sdu/sdthreadpool.cpp
   sdu/placeholder.cpp
 )
 target_include_directories(sdu PUBLIC ${PUBLIC_INCS})
@@ -58,23 +60,32 @@ target_include_directories(sdpipe PUBLIC ${PUBLIC_INCS})
 target_link_libraries(sdpipe PUBLIC sdnet sdu)
 target_compile_features(sdpipe PUBLIC cxx_std_17)
 
-add_library(sddb STATIC sddb/placeholder.cpp)
+add_library(sdalgorithm STATIC
+  algorithm/sdcrc.cpp
+  algorithm/sddes.cpp
+  algorithm/sdmd5.cpp
+  algorithm/sdstrencrypt.cpp
+)
+target_include_directories(sdalgorithm PUBLIC ${PUBLIC_INCS})
+target_compile_features(sdalgorithm PUBLIC cxx_std_17)
+
+add_library(sddb STATIC sddb/sddb_module.cpp)
 target_include_directories(sddb PUBLIC ${PUBLIC_INCS})
 target_compile_features(sddb PUBLIC cxx_std_17)
 
-add_library(sdconsole STATIC sdconsole/placeholder.cpp)
+add_library(sdconsole STATIC sdconsole/console_module.cpp)
 target_include_directories(sdconsole PUBLIC ${PUBLIC_INCS})
 target_compile_features(sdconsole PUBLIC cxx_std_17)
 
-add_library(sdgate STATIC sdgate/placeholder.cpp)
+add_library(sdgate STATIC sdgate/gate_module.cpp)
 target_include_directories(sdgate PUBLIC ${PUBLIC_INCS})
 target_compile_features(sdgate PUBLIC cxx_std_17)
 
-add_library(sdsysteminfo STATIC sdsysteminfo/placeholder.cpp)
+add_library(sdsysteminfo STATIC sdsysteminfo/systeminfo_module.cpp)
 target_include_directories(sdsysteminfo PUBLIC ${PUBLIC_INCS})
 target_compile_features(sdsysteminfo PUBLIC cxx_std_17)
 
-add_library(sddebugviewer STATIC sddebugviewer/placeholder.cpp)
+add_library(sddebugviewer STATIC sddebugviewer/debugviewer_module.cpp)
 target_include_directories(sddebugviewer PUBLIC ${PUBLIC_INCS})
 target_compile_features(sddebugviewer PUBLIC cxx_std_17)
 

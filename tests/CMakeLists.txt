@@ -38,6 +38,8 @@ add_executable(sse_tests
   test_sdnet_reconnect.cpp
   test_sdnet_close.cpp
   test_sdnet_client_close.cpp
+  test_sdalgorithm.cpp
+  test_sdcsvfile.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE
@@ -45,6 +47,7 @@ target_link_libraries(sse_tests PRIVATE
   sdu
   sdnet
   sdpipe
+  sdalgorithm
 )
 
 if (SSE_USE_SYSTEM_GTEST)

@@ -4,6 +4,7 @@
 #include "ssengine/sdnet_ver.h"
 #include "ssengine/sdnetutils.h"
 
+#include <cstring>
 #include <string>
 #include <memory>
 #include <mutex>
@@ -21,6 +22,9 @@
 #include <errno.h>
 
 namespace SSCP {
+
+struct NetLinOptions { UINT32 recvBuf{0}; UINT32 sendBuf{0}; INT32 maxConn{-1}; };
+static NetLinOptions g_linopts;
 
 enum class NetEventType { Established, Terminated, Error, Recv };
 struct NetEvent { NetEventType type; class Connection* conn; std::string data; int modErr{0}; int sysErr{0}; };
@@ -205,5 +209,3 @@ void SSAPI SSNetSetOpt(UINT32 dwType, void* pOpt) {
 }
 
 } // namespace SSCP
-struct NetLinOptions { UINT32 recvBuf{0}; UINT32 sendBuf{0}; INT32 maxConn{-1}; };
-static NetLinOptions g_linopts;

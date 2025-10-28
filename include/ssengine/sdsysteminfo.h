@@ -20,12 +20,10 @@
 
 #include "sdbase.h"
 // Compatibility: alias SSSCPVersion to SSSVersion for this SDK
-typedef SSSVersion SSSCPVersion;
-
-
-
 namespace SSCP
 {
+	using SSSCPVersion = SSSVersion;
+
 
 	// Ä£¿éÃû³Æ
 	const char SDSYSTEMINFO_MODULENAME[] = "SSSystemInfo";
