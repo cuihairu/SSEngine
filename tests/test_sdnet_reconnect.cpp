@@ -30,7 +30,7 @@ TEST(sdnet, reconnect_flow) {
     // listener
     SimpleParser parser;
     auto* lis = net->CreateListener(NETIO_ASYNCSELECT);
-    struct Fac : public ISSSessionFactory { ISSession* SSAPI CreateSession(ISSConnection* c) override { auto* s = new ReConnSession(dummy); s->SetConnection(c); return s; } std::atomic<int> dummy{0}; } fac;
+    struct Fac : public ISSSessionFactory { ISSSession* SSAPI CreateSession(ISSConnection* c) override { auto* s = new ReConnSession(dummy); s->SetConnection(c); return s; } std::atomic<int> dummy{0}; } fac;
     lis->SetSessionFactory(&fac);
     lis->SetPacketParser(&parser);
     ASSERT_TRUE(lis->Start("127.0.0.1", 34569));

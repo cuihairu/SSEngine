@@ -50,7 +50,7 @@ TEST(sdnet, sdpkg_sticky_and_split) {
     auto* listener = net->CreateListener(NETIO_ASYNCSELECT);
     struct Factory : public ISSSessionFactory {
         std::atomic<int>& r; PkgParser& p; Factory(std::atomic<int>& rr, PkgParser& pp):r(rr),p(pp){}
-        ISSession* SSAPI CreateSession(ISSConnection* c) override { auto* s = new PkgSession(r); s->SetConnection(c); return s; }
+        ISSSession* SSAPI CreateSession(ISSConnection* c) override { auto* s = new PkgSession(r); s->SetConnection(c); return s; }
     } fac(svr_recv, parser);
     listener->SetSessionFactory(&fac);
     listener->SetPacketParser(&parser);

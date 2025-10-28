@@ -39,11 +39,10 @@ TEST(sdthread, function_thread_start_and_wait) {
     BOOL ran = FALSE;
     SDTHREADID tid = 0;
     SDHANDLE h = SDCreateThread(nullptr, &fproc, &ran, &tid, FALSE);
-    ASSERT_NE(h, SDINVALID_HANDLE);
+    ASSERT_TRUE(h != SDINVALID_HANDLE);
     EXPECT_NE(tid, 0u);
     EXPECT_EQ(0, SDThreadWait(h));
     SDThreadCloseHandle(h);
     EXPECT_TRUE(ran);
 }
 #endif
-

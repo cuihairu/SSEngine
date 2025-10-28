@@ -37,7 +37,7 @@ TEST(sdnet, client_close_triggers_server_terminate) {
     PassthroughParser parser;
 
     std::atomic<int> server_term{0};
-    struct Fac : public ISSSessionFactory { std::atomic<int>& t; Fac(std::atomic<int>& tt):t(tt){} ISSession* SSAPI CreateSession(ISSConnection* c) override { auto* s=new ServerTermSession(t); s->SetConnection(c); return s; } } fac(server_term);
+    struct Fac : public ISSSessionFactory { std::atomic<int>& t; Fac(std::atomic<int>& tt):t(tt){} ISSSession* SSAPI CreateSession(ISSConnection* c) override { auto* s=new ServerTermSession(t); s->SetConnection(c); return s; } } fac(server_term);
     auto* lis = net->CreateListener(NETIO_ASYNCSELECT);
     lis->SetSessionFactory(&fac); lis->SetPacketParser(&parser);
     ASSERT_TRUE(lis->Start("127.0.0.1", 34583));

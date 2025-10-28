@@ -8,6 +8,7 @@
 #include <atomic>
 #include <unordered_set>
 #include <fstream>
+#include <memory>
 
 namespace SSCP {
 
@@ -23,6 +24,8 @@ class PipeImpl : public ISSPipe {
 public:
     PipeImpl(UINT32 id) : _id(id), _conn(nullptr), _ip(0) {}
     ~PipeImpl() override {}
+
+    bool isConnected() const { return _conn != nullptr; }
 
     UINT32 SSAPI GetID(void) override { return _id; }
 
@@ -58,9 +61,10 @@ public:
     void SSAPI Close(void) override { if (_conn) _conn->Disconnect(); }
 
     void attach(ISSConnection* c) { _conn = c; if (c) _ip = c->GetRemoteIP(); }
+    void detach(ISSConnection* c) { if (_conn == c) _conn = nullptr; }
     void onRecv(const char* pData, UINT32 dwLen) {
         if (dwLen < 2) return; UINT16 bid = SDNtohs(*reinterpret_cast<const UINT16*>(pData));
-        std::lock_guard<std::mutex> lk(_mtx); auto it = _sinks.find(bid); if (it && it != _sinks.end() && it->second.sink) {
+        std::lock_guard<std::mutex> lk(_mtx); auto it = _sinks.find(bid); if (it != _sinks.end() && it->second.sink) {
             it->second.sink->OnRecv(bid, pData + 2, dwLen - 2);
         }
     }
@@ -69,27 +73,38 @@ private:
     UINT32 _id; ISSConnection* _conn; UINT32 _ip; std::mutex _mtx; std::unordered_map<UINT16, SinkEntry> _sinks;
 };
 
+class PipeModule;
+
 class PipeSession : public ISSSession {
 public:
-    PipeSession(class PipeModule* mod, UINT32 pid) : _mod(mod), _id(pid), _conn(nullptr) {}
-    void SSAPI SetConnection(ISSConnection* c) override { _conn = c; if (_mod) _mod->attachConnection(_id, c); }
-    void SSAPI OnEstablish(void) override {}
-    void SSAPI OnTerminate(void) override { if (_mod) _mod->report(PIPE_DISCONNECT, _id); }
-    bool SSAPI OnError(INT32 nModuleErr, INT32 nSysErr) override { if (_mod) _mod->report(nModuleErr, _id); return true; }
-    void SSAPI OnRecv(const char* pBuf, UINT32 dwLen) override { if (_mod) _mod->onPipeRecv(_id, pBuf, dwLen); }
-    void SSAPI Release(void) override { delete this; }
+    PipeSession(PipeModule* mod, UINT32 pid);
+    void SSAPI SetConnection(ISSConnection* c) override;
+    void SSAPI OnEstablish(void) override;
+    void SSAPI OnTerminate(void) override;
+    bool SSAPI OnError(INT32 nModuleErr, INT32 nSysErr) override;
+    void SSAPI OnRecv(const char* pBuf, UINT32 dwLen) override;
+    void SSAPI Release(void) override;
 private:
-    class PipeModule* _mod; UINT32 _id; ISSConnection* _conn;
+    PipeModule* _mod;
+    UINT32 _id;
+    ISSConnection* _conn;
 };
 
 class PipeSessionFactory : public ISSSessionFactory {
 public:
-    PipeSessionFactory(class PipeModule* mod, UINT32 pid) : _mod(mod), _id(pid) {}
-    ISSSession* SSAPI CreateSession(ISSConnection* poConnection) override {
-        auto* s = new PipeSession(_mod, _id); s->SetConnection(poConnection); return s;
-    }
+    PipeSessionFactory(PipeModule* mod, UINT32 pid);
+    ISSSession* SSAPI CreateSession(ISSConnection* poConnection) override;
 private:
-    class PipeModule* _mod; UINT32 _id;
+    PipeModule* _mod;
+    UINT32 _id;
+};
+
+class PipeListenerFactory : public ISSSessionFactory {
+public:
+    explicit PipeListenerFactory(PipeModule& owner);
+    ISSSession* SSAPI CreateSession(ISSConnection* poConnection) override;
+private:
+    PipeModule& _owner;
 };
 
 class PipeModule : public ISSPipeModule {
@@ -124,15 +139,32 @@ public:
     bool SSAPI ReplaceConn(UINT32 dwID, const char* pszRemoteIP, UINT16 wRemotePort, UINT32, UINT32) override {
         // Keep existing PipeImpl (sinks/userdata) and reconnect session
         if (!_net) return false;
+        {
+            std::lock_guard<std::mutex> lk(_mtx);
+            if (_pipes.find(dwID) == _pipes.end()) {
+                report(PIPE_REMOTEID_ERR, dwID);
+                return false;
+            }
+        }
         auto* conn = _net->CreateConnector(NETIO_ASYNCSELECT);
         auto* parser = new CSDPacketParser();
         auto* session = new PipeSession(this, dwID);
         conn->SetPacketParser(parser);
         conn->SetSession(session);
         int rc = conn->Connect(pszRemoteIP, wRemotePort);
-        if (rc != NET_SUCCESS) { conn->Release(); delete parser; return false; }
+        if (rc != NET_SUCCESS) {
+            conn->Release();
+            delete parser;
+            return false;
+        }
         std::lock_guard<std::mutex> lk(_mtx);
-        if (_pipes.find(dwID) == _pipes.end()) _pipes.emplace(dwID, std::unique_ptr<PipeImpl>(new PipeImpl(dwID)));
+        auto itPipe = _pipes.find(dwID);
+        if (itPipe == _pipes.end()) {
+            conn->Release();
+            delete parser;
+            report(PIPE_REMOTEID_ERR, dwID);
+            return false;
+        }
         // release old
         auto itc = _connById.find(dwID);
         if (itc != _connById.end()) { itc->second->Release(); _connById.erase(itc); }
@@ -145,15 +177,42 @@ public:
     bool SSAPI AddConn(UINT32 dwID, const char* pszRemoteIP, UINT16 wRemotePort, UINT32, UINT32) override {
         if (!_net) return false;
         if (!_checkIp(pszRemoteIP)) return false;
+        {
+            std::lock_guard<std::mutex> lk(_mtx);
+            if (_hasActiveConnectionLocked(dwID) || _pendingConnects.find(dwID) != _pendingConnects.end()) {
+                report(PIPE_REPEAT_CONN, dwID);
+                return false;
+            }
+            if (_pipes.find(dwID) == _pipes.end()) {
+                _pipes.emplace(dwID, std::unique_ptr<PipeImpl>(new PipeImpl(dwID)));
+            }
+            _pendingConnects.insert(dwID);
+        }
         auto* conn = _net->CreateConnector(NETIO_ASYNCSELECT);
         auto* parser = new CSDPacketParser();
         auto* session = new PipeSession(this, dwID);
         conn->SetPacketParser(parser);
         conn->SetSession(session);
         int rc = conn->Connect(pszRemoteIP, wRemotePort);
-        if (rc != NET_SUCCESS) { conn->Release(); delete parser; return false; }
+        if (rc != NET_SUCCESS) {
+            {
+                std::lock_guard<std::mutex> lk(_mtx);
+                _pendingConnects.erase(dwID);
+            }
+            conn->Release();
+            delete parser;
+            return false;
+        }
         std::lock_guard<std::mutex> lk(_mtx);
-        if (_pipes.find(dwID) == _pipes.end()) _pipes.emplace(dwID, std::unique_ptr<PipeImpl>(new PipeImpl(dwID)));
+        auto itPipe = _pipes.find(dwID);
+        if (itPipe == _pipes.end()) {
+            _pendingConnects.erase(dwID);
+            conn->Release();
+            delete parser;
+            report(PIPE_REMOTEID_ERR, dwID);
+            return false;
+        }
+        _pendingConnects.erase(dwID);
         // store mapping
         _connById[dwID] = conn;
         _parserById[dwID] = parser;
@@ -161,7 +220,14 @@ public:
     }
     bool SSAPI RemoveConn(UINT32 dwID) override {
         std::lock_guard<std::mutex> lk(_mtx);
-        auto it = _pipes.find(dwID); if (it == _pipes.end()) return false; it->second->Close(); _pipes.erase(it);
+        auto it = _pipes.find(dwID);
+        if (it == _pipes.end()) {
+            report(PIPE_REMOTEID_ERR, dwID);
+            return false;
+        }
+        it->second->Close();
+        _pendingConnects.erase(dwID);
+        _pipes.erase(it);
         auto itc = _connById.find(dwID); if (itc != _connById.end()) { itc->second->Release(); _connById.erase(itc); }
         auto itp = _parserById.find(dwID); if (itp != _parserById.end()) { delete itp->second; _parserById.erase(itp); }
         report(PIPE_DISCONNECT, dwID);
@@ -171,28 +237,18 @@ public:
     bool SSAPI AddListen(const char* pszLocalIP, UINT16 wLocalPort, UINT32, UINT32) override {
         if (!_net) return false;
         auto* lis = _net->CreateListener(NETIO_ASYNCSELECT);
-        auto* parser = new CSDPacketParser();
-        lis->SetPacketParser(parser);
-        // For passive connections, create a new random id per accept; we pass 0 here, replaced on accept
-        // We use factory per accept by capturing 'this' and constructing session with allocated id.
-        class AcceptFactory : public ISSSessionFactory {
-        public:
-            AcceptFactory(PipeModule* m):_m(m){}
-            ISSession* SSAPI CreateSession(ISSConnection* poConnection) override {
-                if (_m->_useWhitelist) {
-                    const char* rip = poConnection ? poConnection->GetRemoteIPStr() : nullptr;
-                    if (!rip || !_m->_checkIp(rip)) { if (poConnection) poConnection->Disconnect(); return nullptr; }
-                }
-                UINT32 id = _m->allocId();
-                auto* s = new PipeSession(_m, id); s->SetConnection(poConnection); return s;
-            }
-        private: PipeModule* _m;
-        };
-        _acceptFactories.emplace_back(new AcceptFactory(this));
+        auto parser = std::make_unique<CSDPacketParser>();
+        lis->SetPacketParser(parser.get());
+        _acceptFactories.emplace_back(std::make_unique<PipeListenerFactory>(*this));
         lis->SetSessionFactory(_acceptFactories.back().get());
         bool ok = lis->Start(pszLocalIP, wLocalPort, true);
-        if (!ok) { delete parser; _acceptFactories.pop_back(); lis->Release(); return false; }
-        _listeners.emplace_back(lis); _ownedParsers.emplace_back(parser);
+        if (!ok) {
+            _acceptFactories.pop_back();
+            lis->Release();
+            return false;
+        }
+        _listenerParsers.emplace_back(std::move(parser));
+        _listeners.emplace_back(lis);
         return true;
     }
 
@@ -241,6 +297,18 @@ public:
     }
 
     UINT32 allocId() { return ++_localId; }
+    void detachConnection(UINT32 id, ISSConnection* conn) {
+        std::lock_guard<std::mutex> lk(_mtx);
+        auto it = _pipes.find(id);
+        if (it != _pipes.end()) {
+            it->second->detach(conn);
+        }
+        _pendingConnects.erase(id);
+        auto itc = _connById.find(id);
+        if (itc != _connById.end()) { itc->second->Release(); _connById.erase(itc); }
+        auto itp = _parserById.find(id);
+        if (itp != _parserById.end()) { delete itp->second; _parserById.erase(itp); }
+    }
 
 private:
     std::atomic<UINT32> _ref;
@@ -252,19 +320,100 @@ private:
     std::unordered_map<UINT32, ISSConnector*> _connById;
     std::unordered_map<UINT32, ISSPacketParser*> _parserById;
     std::vector<std::unique_ptr<ISSSessionFactory>> _acceptFactories;
+    std::vector<std::unique_ptr<ISSPacketParser>> _listenerParsers;
+    std::unordered_set<UINT32> _pendingConnects;
     UINT32 _localId;
     bool _useWhitelist{false};
     std::unordered_set<std::string> _ipWhitelist;
+
+    bool _hasActiveConnectionLocked(UINT32 id) const {
+        if (_connById.find(id) != _connById.end()) return true;
+        auto it = _pipes.find(id);
+        return it != _pipes.end() && it->second && it->second->isConnected();
+    }
 
     bool _checkIp(const char* ip) const {
         if (!_useWhitelist) return true;
         if (!ip) return false;
         return _ipWhitelist.find(ip) != _ipWhitelist.end();
     }
+
+    ISSSession* makeListenerSession(ISSConnection* poConnection) {
+        if (!poConnection) return nullptr;
+        if (_useWhitelist) {
+            const char* rip = poConnection->GetRemoteIPStr();
+            if (!rip || !_checkIp(rip)) {
+                poConnection->Disconnect();
+                return nullptr;
+            }
+        }
+        UINT32 id = allocId();
+        auto* session = new PipeSession(this, id);
+        session->SetConnection(poConnection);
+        return session;
+    }
+
+    friend class PipeListenerFactory;
 };
+
+PipeSession::PipeSession(PipeModule* mod, UINT32 pid)
+    : _mod(mod), _id(pid), _conn(nullptr) {}
+
+void SSAPI PipeSession::SetConnection(ISSConnection* c) {
+    _conn = c;
+    if (_mod) {
+        _mod->attachConnection(_id, c);
+    }
+}
+
+void SSAPI PipeSession::OnEstablish(void) { }
+
+void SSAPI PipeSession::OnTerminate(void) {
+    if (_mod) {
+        _mod->detachConnection(_id, _conn);
+        _mod->report(PIPE_DISCONNECT, _id);
+    }
+}
+
+bool SSAPI PipeSession::OnError(INT32 nModuleErr, INT32 nSysErr) {
+    if (_mod) {
+        _mod->report(nModuleErr, _id);
+    }
+    (void)nSysErr;
+    return true;
+}
+
+void SSAPI PipeSession::OnRecv(const char* pBuf, UINT32 dwLen) {
+    if (_mod) {
+        _mod->onPipeRecv(_id, pBuf, dwLen);
+    }
+}
+
+void SSAPI PipeSession::Release(void) {
+    delete this;
+}
+
+PipeSessionFactory::PipeSessionFactory(PipeModule* mod, UINT32 pid)
+    : _mod(mod), _id(pid) {}
+
+ISSSession* SSAPI PipeSessionFactory::CreateSession(ISSConnection* poConnection) {
+    if (!_mod) {
+        return nullptr;
+    }
+    auto* session = new PipeSession(_mod, _id);
+    session->SetConnection(poConnection);
+    return session;
+}
+
+PipeListenerFactory::PipeListenerFactory(PipeModule& owner)
+    : _owner(owner) {}
 
 // factory and logger
 ISSPipeModule* SSAPI SSPipeGetModule(const SSSVersion* /*pstVersion*/) { return new PipeModule(); }
 bool SSAPI SSPipeSetLogger(ISSLogger* poLogger, UINT32 dwLevel) { g_pipe_logger = poLogger; g_pipe_loglevel = dwLevel; return true; }
+
+ISSSession* SSAPI PipeListenerFactory::CreateSession(ISSConnection* poConnection) {
+    return _owner.makeListenerSession(poConnection);
+}
 
 } // namespace SSCP

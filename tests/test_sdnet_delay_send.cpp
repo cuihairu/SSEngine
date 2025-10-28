@@ -35,7 +35,7 @@ TEST(sdnet, delay_send_roundtrip) {
     ASSERT_NE(net, nullptr);
     AnyParser parser;
 
-    struct Fac : public ISSSessionFactory { ISSession* SSAPI CreateSession(ISSConnection* c) override { auto* s=new EchoSession(); s->SetConnection(c); return s; } } fac;
+    struct Fac : public ISSSessionFactory { ISSSession* SSAPI CreateSession(ISSConnection* c) override { auto* s=new EchoSession(); s->SetConnection(c); return s; } } fac;
     auto* lis = net->CreateListener(NETIO_ASYNCSELECT);
     lis->SetSessionFactory(&fac); lis->SetPacketParser(&parser);
     ASSERT_TRUE(lis->Start("127.0.0.1", 34584));

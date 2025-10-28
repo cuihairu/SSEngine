@@ -39,7 +39,7 @@ TEST(sdnet, server_close_triggers_client_terminate) {
 
     // server listener closes immediately upon establish
     std::atomic<int> server_closed{0};
-    struct Fac : public ISSSessionFactory { std::atomic<int>& c; Fac(std::atomic<int>& cc):c(cc){} ISSession* SSAPI CreateSession(ISSConnection* po) override { auto* s=new CloseOnEstablish(c); s->SetConnection(po); return s; } } fac(server_closed);
+    struct Fac : public ISSSessionFactory { std::atomic<int>& c; Fac(std::atomic<int>& cc):c(cc){} ISSSession* SSAPI CreateSession(ISSConnection* po) override { auto* s=new CloseOnEstablish(c); s->SetConnection(po); return s; } } fac(server_closed);
     auto* lis = net->CreateListener(NETIO_ASYNCSELECT);
     lis->SetSessionFactory(&fac); lis->SetPacketParser(&parser);
     ASSERT_TRUE(lis->Start("127.0.0.1", 34581));
