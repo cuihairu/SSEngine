@@ -1,0 +1,102 @@
+sdlogger.file_logger_factory_not_null 1 0.0104864
+sdlogger.file_logger_basic_init_and_log 1 0.0101229
+sdlogger.csdlogger_delegates_to_logger 1 0.0091775
+sdlogger.file_logger_day_rolling_creates_expected_file 1 0.0103316
+sdlogger.file_logger_month_rolling_creates_expected_file 1 0.0101163
+sdlogger.udp_logger_basic_send 1 0.0106217
+sdlogger.tcp_logger_connect_fail_writes_errorfile 1 2.04144
+sdnet.factory_not_null 1 0.0102568
+sdnet.roundtrip_client_server 1 0.0797389
+sdnet.sdpkg_sticky_and_split 1 0.0480786
+sdnet.reconnect_flow 0 0
+sdnet.server_close_triggers_client_terminate 0 0
+sdnet.client_close_triggers_server_terminate 1 0.046118
+sdnetutils.inet_pton_ntop_ipv4_roundtrip 1 0.0096083
+sdnetutils.get_host_name_nonempty 1 0.0138459
+sdmutex.basic_lock_unlock 1 0.0090581
+sdmutex.rw_mutex_basic 1 0.0090811
+sdmutex.condition_signal_basic 1 0.0089374
+sdtime.tick_and_sleep 1 0.0696553
+sdtime.now_and_diff 1 0.0096137
+sdfile.create_write_read_remove 1 0.0103178
+sdfile.path_helpers 1 0.0103507
+sdfilemapping.map_and_modify 1 0.0206682
+sdshmem.create_and_reopen 1 0.0176302
+sdshmem.existence_check 1 0.0105112
+sdprocess.create_and_wait 1 0.0195895
+sdprocess.current_process_id 1 0.0091751
+sdregex.match_groups 1 0.0096812
+sdregex.replace_text 1 0.0097397
+sdatomic.add_inc_dec_cas 1 0.0093139
+sdatomic.xchg_ptr 1 0.0091096
+sdpipe.roundtrip 0 0
+sdpipe.replace_conn_keeps_sinks 0 0
+sdpipe.remove_conn_erases_pipe 1 0.785229
+sdpipe.reporter_success_and_disconnect 0 0
+sdpipe.reporter_repeat_connection_code 1 0.783932
+sdpipe.reporter_remoteid_error_code 1 0.0146632
+sdpipe.whitelist_addconn_blocks_disallowed 0 0
+sdcrc.buffer_crc32_matches_known_value 1 0.0153508
+sdcrc.file_crc_matches_buffer_crc 1 0.0204398
+sdmd5.chunked_vs_single_digest 1 0.0110998
+sdmd5.file_digest_consistency 1 0.0160149
+sddes.encrypt_decrypt_roundtrip 1 0.010364
+sdstrencrypt.encode_decode_roundtrip 1 0.0099119
+sdcsvfile.insert_and_read 1 0.0098781
+sddatastream.write_read_scalars 1 0.0097811
+SDMemoryPoolTest.VarMemoryPool_Create 1 0.0100894
+SDMemoryPoolTest.VarMemoryPool_BasicAllocation 1 0.0102112
+SDMemoryPoolTest.VarMemoryPool_ZeroAllocation 1 0.0095539
+SDMemoryPoolTest.VarMemoryPool_LargeAllocation 1 0.0095066
+SDMemoryPoolTest.VarMemoryPool_AllocationAndFree 1 0.0096155
+SDMemoryPoolTest.VarMemoryPool_MemoryUsage 1 0.0094972
+SDMemoryPoolTest.VarMemoryPool_Clear 1 0.0098466
+SDMemoryPoolTest.FixMemoryPool_Create 1 0.0099494
+SDMemoryPoolTest.FixMemoryPool_BasicAllocation 1 0.0097373
+SDMemoryPoolTest.FixMemoryPool_MultipleAllocations 1 0.0100914
+SDMemoryPoolTest.FixMemoryPool_FreeAndReuse 1 0.0097166
+SDMemoryPoolTest.FixMemoryPool_MemoryUsage 1 0.009681
+SDMemoryPoolTest.FixMemoryPool_Clear 1 0.0099576
+SDMemoryPoolTest.VarMemoryPool_StressTest 1 0.0121636
+SDMemoryPoolTest.FixMemoryPool_StressTest 1 0.011762
+SDMemoryPoolTest.VarMemoryPool_DataIntegrity 1 0.0099594
+SDMemoryPoolTest.FixMemoryPool_DataIntegrity 1 0.009645
+SDMemoryPoolTest.PerformanceComparison 1 0.0099657
+SDFifoTest.BasicPushPop 1 0.0095951
+SDFifoTest.SinglePushPop 1 0.0098822
+SDFifoTest.MultiplePushPop 1 0.0098492
+SDFifoTest.InterleavedPushPop 1 0.009926
+SDFifoTest.PopTimeout 1 0.0097075
+SDFifoTest.PopWithTimeout 1 0.120514
+SDFifoTest.SingleProducerSingleConsumer 1 9.68013
+SDFifoTest.MultipleProducersConsumers 1 1.6226
+SDFifoTest.HighVolumeStressTest 1 0.0328447
+SDFifoTest.RapidPushPopCycles 1 0.0199233
+SDFifoTest.ThroughputTest 1 0.142156
+SDFifoTest.MemoryLeakPrevention 1 0.0098717
+SDFifoTest.NullPointerHandling 1 0.0098375
+SDFifoTest.LargeMessageTest 1 0.009481
+SDIdPoolTest.BasicInit 1 0.0096413
+SDIdPoolTest.BasicAllocation 1 0.0100241
+SDIdPoolTest.FindObject 0 0
+SDIdPoolTest.FreeObject 1 0.0100521
+SDIdPoolTest.AllocationAndFreePattern 1 0.0099278
+SDIdPoolTest.ReuseFreedIds 0 0
+SDIdPoolTest.EdgeCaseInvalidOperations 1 0.0101837
+SDIdPoolTest.ZeroSizeInit 1 0.0100698
+SDIdPoolTest.LargePoolTest 1 0.0400576
+SDIdPoolTest.RandomAllocationPattern 1 0.0114591
+SDIdPoolTest.ObjectIntegrity 0 0
+SDIdPoolTest.AllocationPerformance 1 0.0292828
+SDIdPoolTest.FindPerformance 1 0.018905
+SDIdPoolTest.HighContentionStressTest 1 0.0173096
+---
+sdnet.reconnect_flow
+sdnet.server_close_triggers_client_terminate
+sdpipe.roundtrip
+sdpipe.replace_conn_keeps_sinks
+sdpipe.reporter_success_and_disconnect
+sdpipe.whitelist_addconn_blocks_disallowed
+SDIdPoolTest.FindObject
+SDIdPoolTest.ReuseFreedIds
+SDIdPoolTest.ObjectIntegrity

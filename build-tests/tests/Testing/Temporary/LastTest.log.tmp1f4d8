@@ -1,0 +1,1062 @@
+Start testing: Oct 29 10:43 东部夏令时
+----------------------------------------------------------
+1/92 Testing: sdlogger.file_logger_factory_not_null
+1/92 Test: sdlogger.file_logger_factory_not_null
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdlogger.file_logger_factory_not_null" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdlogger.file_logger_factory_not_null" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdlogger.file_logger_factory_not_null
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdlogger
+[ RUN      ] sdlogger.file_logger_factory_not_null
+[       OK ] sdlogger.file_logger_factory_not_null (0 ms)
+[----------] 1 test from sdlogger (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdlogger.file_logger_factory_not_null" end time: Oct 29 10:43 东部夏令时
+"sdlogger.file_logger_factory_not_null" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/92 Testing: sdlogger.file_logger_basic_init_and_log
+2/92 Test: sdlogger.file_logger_basic_init_and_log
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdlogger.file_logger_basic_init_and_log" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdlogger.file_logger_basic_init_and_log" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdlogger.file_logger_basic_init_and_log
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdlogger
+[ RUN      ] sdlogger.file_logger_basic_init_and_log
+[       OK ] sdlogger.file_logger_basic_init_and_log (1 ms)
+[----------] 1 test from sdlogger (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdlogger.file_logger_basic_init_and_log" end time: Oct 29 10:43 东部夏令时
+"sdlogger.file_logger_basic_init_and_log" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/92 Testing: sdlogger.csdlogger_delegates_to_logger
+3/92 Test: sdlogger.csdlogger_delegates_to_logger
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdlogger.csdlogger_delegates_to_logger" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdlogger.csdlogger_delegates_to_logger" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdlogger.csdlogger_delegates_to_logger
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdlogger
+[ RUN      ] sdlogger.csdlogger_delegates_to_logger
+[       OK ] sdlogger.csdlogger_delegates_to_logger (0 ms)
+[----------] 1 test from sdlogger (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdlogger.csdlogger_delegates_to_logger" end time: Oct 29 10:43 东部夏令时
+"sdlogger.csdlogger_delegates_to_logger" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/92 Testing: sdlogger.file_logger_day_rolling_creates_expected_file
+4/92 Test: sdlogger.file_logger_day_rolling_creates_expected_file
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdlogger.file_logger_day_rolling_creates_expected_file" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdlogger.file_logger_day_rolling_creates_expected_file" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdlogger.file_logger_day_rolling_creates_expected_file
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdlogger
+[ RUN      ] sdlogger.file_logger_day_rolling_creates_expected_file
+[       OK ] sdlogger.file_logger_day_rolling_creates_expected_file (0 ms)
+[----------] 1 test from sdlogger (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdlogger.file_logger_day_rolling_creates_expected_file" end time: Oct 29 10:43 东部夏令时
+"sdlogger.file_logger_day_rolling_creates_expected_file" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/92 Testing: sdlogger.file_logger_month_rolling_creates_expected_file
+5/92 Test: sdlogger.file_logger_month_rolling_creates_expected_file
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdlogger.file_logger_month_rolling_creates_expected_file" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdlogger.file_logger_month_rolling_creates_expected_file" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdlogger.file_logger_month_rolling_creates_expected_file
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdlogger
+[ RUN      ] sdlogger.file_logger_month_rolling_creates_expected_file
+[       OK ] sdlogger.file_logger_month_rolling_creates_expected_file (0 ms)
+[----------] 1 test from sdlogger (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdlogger.file_logger_month_rolling_creates_expected_file" end time: Oct 29 10:43 东部夏令时
+"sdlogger.file_logger_month_rolling_creates_expected_file" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/92 Testing: sdlogger.udp_logger_basic_send
+6/92 Test: sdlogger.udp_logger_basic_send
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdlogger.udp_logger_basic_send" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdlogger.udp_logger_basic_send" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdlogger.udp_logger_basic_send
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdlogger
+[ RUN      ] sdlogger.udp_logger_basic_send
+[       OK ] sdlogger.udp_logger_basic_send (1 ms)
+[----------] 1 test from sdlogger (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdlogger.udp_logger_basic_send" end time: Oct 29 10:43 东部夏令时
+"sdlogger.udp_logger_basic_send" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/92 Testing: sdlogger.tcp_logger_connect_fail_writes_errorfile
+7/92 Test: sdlogger.tcp_logger_connect_fail_writes_errorfile
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdlogger.tcp_logger_connect_fail_writes_errorfile" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdlogger.tcp_logger_connect_fail_writes_errorfile" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdlogger.tcp_logger_connect_fail_writes_errorfile
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdlogger
+[ RUN      ] sdlogger.tcp_logger_connect_fail_writes_errorfile
+[       OK ] sdlogger.tcp_logger_connect_fail_writes_errorfile (2035 ms)
+[----------] 1 test from sdlogger (2035 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2035 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   2.05 sec
+----------------------------------------------------------
+Test Passed.
+"sdlogger.tcp_logger_connect_fail_writes_errorfile" end time: Oct 29 10:43 东部夏令时
+"sdlogger.tcp_logger_connect_fail_writes_errorfile" time elapsed: 00:00:02
+----------------------------------------------------------
+
+8/92 Testing: sdnet.factory_not_null
+8/92 Test: sdnet.factory_not_null
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdnet.factory_not_null" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdnet.factory_not_null" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdnet.factory_not_null
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdnet
+[ RUN      ] sdnet.factory_not_null
+[       OK ] sdnet.factory_not_null (1 ms)
+[----------] 1 test from sdnet (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"sdnet.factory_not_null" end time: Oct 29 10:43 东部夏令时
+"sdnet.factory_not_null" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/92 Testing: sdnet.roundtrip_client_server
+9/92 Test: sdnet.roundtrip_client_server
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdnet.roundtrip_client_server" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdnet.roundtrip_client_server" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdnet.roundtrip_client_server
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdnet
+[ RUN      ] sdnet.roundtrip_client_server
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[       OK ] sdnet.roundtrip_client_server (81 ms)
+[----------] 1 test from sdnet (81 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (81 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"sdnet.roundtrip_client_server" end time: Oct 29 10:43 东部夏令时
+"sdnet.roundtrip_client_server" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/92 Testing: sdnet.sdpkg_sticky_and_split
+10/92 Test: sdnet.sdpkg_sticky_and_split
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdnet.sdpkg_sticky_and_split" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdnet.sdpkg_sticky_and_split" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdnet.sdpkg_sticky_and_split
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdnet
+[ RUN      ] sdnet.sdpkg_sticky_and_split
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[       OK ] sdnet.sdpkg_sticky_and_split (35 ms)
+[----------] 1 test from sdnet (35 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (35 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"sdnet.sdpkg_sticky_and_split" end time: Oct 29 10:43 东部夏令时
+"sdnet.sdpkg_sticky_and_split" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/92 Testing: sdnet.reconnect_flow
+11/92 Test: sdnet.reconnect_flow
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdnet.reconnect_flow" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdnet.reconnect_flow" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdnet.reconnect_flow
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdnet
+[ RUN      ] sdnet.reconnect_flow
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnTerminate local=127.0.0.1 remote=127.0.0.1
+[Connection] OnTerminate local=127.0.0.1 remote=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[       OK ] sdnet.reconnect_flow (97 ms)
+[----------] 1 test from sdnet (97 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (98 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"sdnet.reconnect_flow" end time: Oct 29 10:43 东部夏令时
+"sdnet.reconnect_flow" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/92 Testing: sdnet.server_close_triggers_client_terminate
+12/92 Test: sdnet.server_close_triggers_client_terminate
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdnet.server_close_triggers_client_terminate" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdnet.server_close_triggers_client_terminate" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdnet.server_close_triggers_client_terminate
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdnet
+[ RUN      ] sdnet.server_close_triggers_client_terminate
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnTerminate local=127.0.0.1 remote=127.0.0.1
+[Connection] OnTerminate local=127.0.0.1 remote=127.0.0.1
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"sdnet.server_close_triggers_client_terminate" end time: Oct 29 10:43 东部夏令时
+"sdnet.server_close_triggers_client_terminate" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/92 Testing: sdnet.client_close_triggers_server_terminate
+13/92 Test: sdnet.client_close_triggers_server_terminate
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdnet.client_close_triggers_server_terminate" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdnet.client_close_triggers_server_terminate" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdnet.client_close_triggers_server_terminate
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdnet
+[ RUN      ] sdnet.client_close_triggers_server_terminate
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnTerminate local=127.0.0.1 remote=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnTerminate local=127.0.0.1 remote=127.0.0.1
+[       OK ] sdnet.client_close_triggers_server_terminate (36 ms)
+[----------] 1 test from sdnet (36 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (36 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"sdnet.client_close_triggers_server_terminate" end time: Oct 29 10:43 东部夏令时
+"sdnet.client_close_triggers_server_terminate" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/92 Testing: sdnetutils.inet_pton_ntop_ipv4_roundtrip
+14/92 Test: sdnetutils.inet_pton_ntop_ipv4_roundtrip
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdnetutils.inet_pton_ntop_ipv4_roundtrip" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdnetutils.inet_pton_ntop_ipv4_roundtrip" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdnetutils.inet_pton_ntop_ipv4_roundtrip
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdnetutils
+[ RUN      ] sdnetutils.inet_pton_ntop_ipv4_roundtrip
+[       OK ] sdnetutils.inet_pton_ntop_ipv4_roundtrip (0 ms)
+[----------] 1 test from sdnetutils (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdnetutils.inet_pton_ntop_ipv4_roundtrip" end time: Oct 29 10:43 东部夏令时
+"sdnetutils.inet_pton_ntop_ipv4_roundtrip" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/92 Testing: sdnetutils.get_host_name_nonempty
+15/92 Test: sdnetutils.get_host_name_nonempty
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdnetutils.get_host_name_nonempty" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdnetutils.get_host_name_nonempty" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdnetutils.get_host_name_nonempty
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdnetutils
+[ RUN      ] sdnetutils.get_host_name_nonempty
+[       OK ] sdnetutils.get_host_name_nonempty (4 ms)
+[----------] 1 test from sdnetutils (4 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (4 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdnetutils.get_host_name_nonempty" end time: Oct 29 10:43 东部夏令时
+"sdnetutils.get_host_name_nonempty" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/92 Testing: sdmutex.basic_lock_unlock
+16/92 Test: sdmutex.basic_lock_unlock
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdmutex.basic_lock_unlock" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdmutex.basic_lock_unlock" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdmutex.basic_lock_unlock
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdmutex
+[ RUN      ] sdmutex.basic_lock_unlock
+[       OK ] sdmutex.basic_lock_unlock (0 ms)
+[----------] 1 test from sdmutex (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdmutex.basic_lock_unlock" end time: Oct 29 10:43 东部夏令时
+"sdmutex.basic_lock_unlock" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/92 Testing: sdmutex.rw_mutex_basic
+17/92 Test: sdmutex.rw_mutex_basic
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdmutex.rw_mutex_basic" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdmutex.rw_mutex_basic" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdmutex.rw_mutex_basic
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdmutex
+[ RUN      ] sdmutex.rw_mutex_basic
+[       OK ] sdmutex.rw_mutex_basic (0 ms)
+[----------] 1 test from sdmutex (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdmutex.rw_mutex_basic" end time: Oct 29 10:43 东部夏令时
+"sdmutex.rw_mutex_basic" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/92 Testing: sdmutex.condition_signal_basic
+18/92 Test: sdmutex.condition_signal_basic
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdmutex.condition_signal_basic" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdmutex.condition_signal_basic" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdmutex.condition_signal_basic
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdmutex
+[ RUN      ] sdmutex.condition_signal_basic
+[       OK ] sdmutex.condition_signal_basic (0 ms)
+[----------] 1 test from sdmutex (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdmutex.condition_signal_basic" end time: Oct 29 10:43 东部夏令时
+"sdmutex.condition_signal_basic" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/92 Testing: sdtime.tick_and_sleep
+19/92 Test: sdtime.tick_and_sleep
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdtime.tick_and_sleep" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdtime.tick_and_sleep" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdtime.tick_and_sleep
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdtime
+[ RUN      ] sdtime.tick_and_sleep
+[       OK ] sdtime.tick_and_sleep (56 ms)
+[----------] 1 test from sdtime (56 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (57 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"sdtime.tick_and_sleep" end time: Oct 29 10:43 东部夏令时
+"sdtime.tick_and_sleep" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/92 Testing: sdtime.now_and_diff
+20/92 Test: sdtime.now_and_diff
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdtime.now_and_diff" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdtime.now_and_diff" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdtime.now_and_diff
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdtime
+[ RUN      ] sdtime.now_and_diff
+[       OK ] sdtime.now_and_diff (0 ms)
+[----------] 1 test from sdtime (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdtime.now_and_diff" end time: Oct 29 10:43 东部夏令时
+"sdtime.now_and_diff" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/92 Testing: sdfile.create_write_read_remove
+21/92 Test: sdfile.create_write_read_remove
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdfile.create_write_read_remove" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdfile.create_write_read_remove" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdfile.create_write_read_remove
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdfile
+[ RUN      ] sdfile.create_write_read_remove
+[       OK ] sdfile.create_write_read_remove (5 ms)
+[----------] 1 test from sdfile (5 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (5 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdfile.create_write_read_remove" end time: Oct 29 10:43 东部夏令时
+"sdfile.create_write_read_remove" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/92 Testing: sdfile.path_helpers
+22/92 Test: sdfile.path_helpers
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdfile.path_helpers" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdfile.path_helpers" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdfile.path_helpers
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdfile
+[ RUN      ] sdfile.path_helpers
+[       OK ] sdfile.path_helpers (0 ms)
+[----------] 1 test from sdfile (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdfile.path_helpers" end time: Oct 29 10:43 东部夏令时
+"sdfile.path_helpers" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/92 Testing: sdfilemapping.map_and_modify
+23/92 Test: sdfilemapping.map_and_modify
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdfilemapping.map_and_modify" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdfilemapping.map_and_modify" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdfilemapping.map_and_modify
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdfilemapping
+[ RUN      ] sdfilemapping.map_and_modify
+[       OK ] sdfilemapping.map_and_modify (9 ms)
+[----------] 1 test from sdfilemapping (9 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (10 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"sdfilemapping.map_and_modify" end time: Oct 29 10:43 东部夏令时
+"sdfilemapping.map_and_modify" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/92 Testing: sdshmem.create_and_reopen
+24/92 Test: sdshmem.create_and_reopen
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdshmem.create_and_reopen" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdshmem.create_and_reopen" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdshmem.create_and_reopen
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdshmem
+[ RUN      ] sdshmem.create_and_reopen
+[       OK ] sdshmem.create_and_reopen (5 ms)
+[----------] 1 test from sdshmem (5 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (5 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"sdshmem.create_and_reopen" end time: Oct 29 10:43 东部夏令时
+"sdshmem.create_and_reopen" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/92 Testing: sdshmem.existence_check
+25/92 Test: sdshmem.existence_check
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdshmem.existence_check" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdshmem.existence_check" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdshmem.existence_check
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdshmem
+[ RUN      ] sdshmem.existence_check
+[       OK ] sdshmem.existence_check (1 ms)
+[----------] 1 test from sdshmem (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdshmem.existence_check" end time: Oct 29 10:43 东部夏令时
+"sdshmem.existence_check" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/92 Testing: sdprocess.create_and_wait
+26/92 Test: sdprocess.create_and_wait
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdprocess.create_and_wait" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdprocess.create_and_wait" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdprocess.create_and_wait
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdprocess
+[ RUN      ] sdprocess.create_and_wait
+[       OK ] sdprocess.create_and_wait (9 ms)
+[----------] 1 test from sdprocess (9 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (10 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"sdprocess.create_and_wait" end time: Oct 29 10:43 东部夏令时
+"sdprocess.create_and_wait" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/92 Testing: sdprocess.current_process_id
+27/92 Test: sdprocess.current_process_id
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdprocess.current_process_id" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdprocess.current_process_id" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdprocess.current_process_id
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdprocess
+[ RUN      ] sdprocess.current_process_id
+[       OK ] sdprocess.current_process_id (0 ms)
+[----------] 1 test from sdprocess (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdprocess.current_process_id" end time: Oct 29 10:43 东部夏令时
+"sdprocess.current_process_id" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/92 Testing: sdregex.match_groups
+28/92 Test: sdregex.match_groups
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdregex.match_groups" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdregex.match_groups" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdregex.match_groups
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdregex
+[ RUN      ] sdregex.match_groups
+[       OK ] sdregex.match_groups (0 ms)
+[----------] 1 test from sdregex (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdregex.match_groups" end time: Oct 29 10:43 东部夏令时
+"sdregex.match_groups" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/92 Testing: sdregex.replace_text
+29/92 Test: sdregex.replace_text
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdregex.replace_text" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdregex.replace_text" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdregex.replace_text
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdregex
+[ RUN      ] sdregex.replace_text
+[       OK ] sdregex.replace_text (0 ms)
+[----------] 1 test from sdregex (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"sdregex.replace_text" end time: Oct 29 10:43 东部夏令时
+"sdregex.replace_text" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/92 Testing: sdatomic.add_inc_dec_cas
+30/92 Test: sdatomic.add_inc_dec_cas
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdatomic.add_inc_dec_cas" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdatomic.add_inc_dec_cas" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdatomic.add_inc_dec_cas
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdatomic
+[ RUN      ] sdatomic.add_inc_dec_cas
+[       OK ] sdatomic.add_inc_dec_cas (0 ms)
+[----------] 1 test from sdatomic (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdatomic.add_inc_dec_cas" end time: Oct 29 10:43 东部夏令时
+"sdatomic.add_inc_dec_cas" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/92 Testing: sdatomic.xchg_ptr
+31/92 Test: sdatomic.xchg_ptr
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdatomic.xchg_ptr" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdatomic.xchg_ptr" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdatomic.xchg_ptr
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdatomic
+[ RUN      ] sdatomic.xchg_ptr
+[       OK ] sdatomic.xchg_ptr (0 ms)
+[----------] 1 test from sdatomic (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdatomic.xchg_ptr" end time: Oct 29 10:43 东部夏令时
+"sdatomic.xchg_ptr" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/92 Testing: sdpipe.roundtrip
+32/92 Test: sdpipe.roundtrip
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdpipe.roundtrip" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdpipe.roundtrip" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdpipe.roundtrip
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdpipe
+[ RUN      ] sdpipe.roundtrip
+[PipeImpl 16909060] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[PipeImpl 16777217] attach conn, rip=
+[PipeImpl 16777217] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[PipeImpl 16909060] SetSink bid=7 sink=00000093759FEF78
+[PipeImpl 16777217] SetSink bid=7 sink=00000093759FF0B8
+[PipeImpl 16909060] Sent bid=7 len=10
+[PipeModule] onPipeRecv id=16777217 len=18 off=6
+[PipeImpl 16777217] OnRecv deliver bid=7 len=10 data='hello-pipe'
+[PipeImpl 16777217] Sent bid=7 len=10
+[PipeModule] onPipeRecv id=16909060 len=18 off=6
+[PipeImpl 16909060] OnRecv deliver bid=7 len=10 data='hello-pipe'
+<end of output>
+Test time =   1.60 sec
+----------------------------------------------------------
+Test Failed.
+"sdpipe.roundtrip" end time: Oct 29 10:43 东部夏令时
+"sdpipe.roundtrip" time elapsed: 00:00:01
+----------------------------------------------------------
+
+33/92 Testing: sdpipe.replace_conn_keeps_sinks
+33/92 Test: sdpipe.replace_conn_keeps_sinks
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdpipe.replace_conn_keeps_sinks" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdpipe.replace_conn_keeps_sinks" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdpipe.replace_conn_keeps_sinks
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdpipe
+[ RUN      ] sdpipe.replace_conn_keeps_sinks
+[PipeImpl 168496141] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[PipeImpl 16777217] attach conn, rip=
+[PipeImpl 16777217] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[PipeImpl 168496141] SetSink bid=9 sink=000000E4DD9BEC08
+[PipeImpl 168496141] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnTerminate local=127.0.0.1 remote=127.0.0.1
+[PipeImpl 16777218] attach conn, rip=
+[PipeImpl 16777218] attach conn, rip=127.0.0.1
+unknown file: error: SEH exception with code 0xc0000005 thrown in the test body.
+Stack trace:
+
+
+[  FAILED  ] sdpipe.replace_conn_keeps_sinks (773 ms)
+[----------] 1 test from sdpipe (773 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (773 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] sdpipe.replace_conn_keeps_sinks
+
+ 1 FAILED TEST
+<end of output>
+Test time =   0.78 sec
+----------------------------------------------------------
+Test Failed.
+"sdpipe.replace_conn_keeps_sinks" end time: Oct 29 10:43 东部夏令时
+"sdpipe.replace_conn_keeps_sinks" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/92 Testing: sdpipe.remove_conn_erases_pipe
+34/92 Test: sdpipe.remove_conn_erases_pipe
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdpipe.remove_conn_erases_pipe" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdpipe.remove_conn_erases_pipe" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdpipe.remove_conn_erases_pipe
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdpipe
+[ RUN      ] sdpipe.remove_conn_erases_pipe
+[PipeImpl 168496142] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[PipeImpl 16777217] attach conn, rip=
+[PipeImpl 16777217] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[       OK ] sdpipe.remove_conn_erases_pipe (772 ms)
+[----------] 1 test from sdpipe (772 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (772 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.78 sec
+----------------------------------------------------------
+Test Passed.
+"sdpipe.remove_conn_erases_pipe" end time: Oct 29 10:43 东部夏令时
+"sdpipe.remove_conn_erases_pipe" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/92 Testing: sdpipe.reporter_success_and_disconnect
+35/92 Test: sdpipe.reporter_success_and_disconnect
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdpipe.reporter_success_and_disconnect" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdpipe.reporter_success_and_disconnect" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdpipe.reporter_success_and_disconnect
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdpipe
+[ RUN      ] sdpipe.reporter_success_and_disconnect
+[PipeImpl 287454020] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[PipeImpl 16777217] attach conn, rip=
+[PipeImpl 16777217] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[Connection] OnTerminate local=127.0.0.1 remote=127.0.0.1
+unknown file: error: SEH exception with code 0xc0000005 thrown in the test body.
+Stack trace:
+
+
+[  FAILED  ] sdpipe.reporter_success_and_disconnect (18 ms)
+[----------] 1 test from sdpipe (18 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (18 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] sdpipe.reporter_success_and_disconnect
+
+ 1 FAILED TEST
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Failed.
+"sdpipe.reporter_success_and_disconnect" end time: Oct 29 10:43 东部夏令时
+"sdpipe.reporter_success_and_disconnect" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/92 Testing: sdpipe.reporter_repeat_connection_code
+36/92 Test: sdpipe.reporter_repeat_connection_code
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdpipe.reporter_repeat_connection_code" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdpipe.reporter_repeat_connection_code" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdpipe.reporter_repeat_connection_code
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdpipe
+[ RUN      ] sdpipe.reporter_repeat_connection_code
+[PipeImpl 1432778632] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[PipeImpl 16777217] attach conn, rip=
+[PipeImpl 16777217] attach conn, rip=127.0.0.1
+[Connection] OnEstablish local=127.0.0.1 remote=127.0.0.1
+[       OK ] sdpipe.reporter_repeat_connection_code (768 ms)
+[----------] 1 test from sdpipe (768 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (768 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.78 sec
+----------------------------------------------------------
+Test Passed.
+"sdpipe.reporter_repeat_connection_code" end time: Oct 29 10:43 东部夏令时
+"sdpipe.reporter_repeat_connection_code" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/92 Testing: sdpipe.reporter_remoteid_error_code
+37/92 Test: sdpipe.reporter_remoteid_error_code
+Command: "C:/Users/cui/Workspaces/SSEngine/build-tests/tests/Debug/sse_tests.exe" "--gtest_filter=sdpipe.reporter_remoteid_error_code" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/cui/Workspaces/SSEngine/build-tests/tests
+"sdpipe.reporter_remoteid_error_code" start time: Oct 29 10:43 东部夏令时
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = sdpipe.reporter_remoteid_error_code
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from sdpipe
+[ RUN      ] sdpipe.reporter_remoteid_error_code
+[       OK ] sdpipe.reporter_remoteid_error_code (0 ms)
+[----------] 1 test from sdpipe (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdpipe.reporter_remoteid_error_code" end time: Oct 29 10:43 东部夏令时
+"sdpipe.reporter_remoteid_error_code" time elapsed: 00:00:00
+----------------------------------------------------------
+

@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BDBA8AE4-9A8E-3178-8150-1A342D31024B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\cui\Workspaces\SSEngine\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/cui/Workspaces/SSEngine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\cui\scoop\apps\cmake\current\bin\cmake.exe -SC:/Users/cui/Workspaces/SSEngine -BC:/Users/cui/Workspaces/SSEngine/build-tests --check-stamp-file C:/Users/cui/Workspaces/SSEngine/build-tests/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeCXXCompiler.cmake;C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeRCCompiler.cmake;C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeSystem.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeCXXInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeGenericSystem.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeInitializeConfigs.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeLanguageInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeRCInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTest.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTestTargets.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTestUseLaunchers.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\DartConfiguration.tcl.in;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Linker\MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Linker\MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-Initialize.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/cui/Workspaces/SSEngine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\cui\scoop\apps\cmake\current\bin\cmake.exe -SC:/Users/cui/Workspaces/SSEngine -BC:/Users/cui/Workspaces/SSEngine/build-tests --check-stamp-file C:/Users/cui/Workspaces/SSEngine/build-tests/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeCXXCompiler.cmake;C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeRCCompiler.cmake;C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeSystem.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeCXXInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeGenericSystem.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeInitializeConfigs.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeLanguageInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeRCInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTest.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTestTargets.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTestUseLaunchers.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\DartConfiguration.tcl.in;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Linker\MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Linker\MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-Initialize.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/cui/Workspaces/SSEngine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\cui\scoop\apps\cmake\current\bin\cmake.exe -SC:/Users/cui/Workspaces/SSEngine -BC:/Users/cui/Workspaces/SSEngine/build-tests --check-stamp-file C:/Users/cui/Workspaces/SSEngine/build-tests/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeCXXCompiler.cmake;C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeRCCompiler.cmake;C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeSystem.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeCXXInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeGenericSystem.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeInitializeConfigs.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeLanguageInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeRCInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTest.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTestTargets.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTestUseLaunchers.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\DartConfiguration.tcl.in;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Linker\MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Linker\MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-Initialize.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/cui/Workspaces/SSEngine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\cui\scoop\apps\cmake\current\bin\cmake.exe -SC:/Users/cui/Workspaces/SSEngine -BC:/Users/cui/Workspaces/SSEngine/build-tests --check-stamp-file C:/Users/cui/Workspaces/SSEngine/build-tests/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeCXXCompiler.cmake;C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeRCCompiler.cmake;C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\4.0.3\CMakeSystem.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeCXXInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeGenericSystem.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeInitializeConfigs.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeLanguageInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeRCInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTest.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTestTargets.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\CTestUseLaunchers.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Compiler\MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\DartConfiguration.tcl.in;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Linker\MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Linker\MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-Initialize.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows-MSVC.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\Windows.cmake;C:\Users\cui\scoop\apps\cmake\current\share\cmake-4.0\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\cui\Workspaces\SSEngine\build-tests\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\ZERO_CHECK.vcxproj">
+      <Project>{D4239183-7594-341C-999F-D90146A9DCAA}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-build\googlemock\gmock.vcxproj">
+      <Project>{D48E0320-2319-38C4-AD41-53B89D0B70FA}</Project>
+      <Name>gmock</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-build\googlemock\gmock_main.vcxproj">
+      <Project>{BB0414DB-3E05-3474-A38D-5DD48E0A483F}</Project>
+      <Name>gmock_main</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-build\googletest\gtest.vcxproj">
+      <Project>{1DFE0D0D-4C4B-3B9E-A6F9-005569A249FB}</Project>
+      <Name>gtest</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\_deps\googletest-build\googletest\gtest_main.vcxproj">
+      <Project>{3C37F26B-FAAA-3482-849B-412756D2C96A}</Project>
+      <Name>gtest_main</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sdalgorithm.vcxproj">
+      <Project>{2D11B0C5-BD89-3029-B490-107EEB15139C}</Project>
+      <Name>sdalgorithm</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sdconsole.vcxproj">
+      <Project>{1AD358D7-D9F4-38B1-A498-A6027B2D17DE}</Project>
+      <Name>sdconsole</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sddb.vcxproj">
+      <Project>{BF78367E-0D8A-37FD-86D8-8D1DC45BCA58}</Project>
+      <Name>sddb</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sddebugviewer.vcxproj">
+      <Project>{18FEF0AD-B2FD-30A0-821C-E62867C2E484}</Project>
+      <Name>sddebugviewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sdgate.vcxproj">
+      <Project>{7C28E737-04D7-3FE3-AD47-778FAE883DD6}</Project>
+      <Name>sdgate</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sdlogger.vcxproj">
+      <Project>{ED3C15FA-41D2-3A5B-9279-7E96F7FFC864}</Project>
+      <Name>sdlogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sdnet.vcxproj">
+      <Project>{0162121E-BCD1-3A11-AB59-24CA27F08976}</Project>
+      <Name>sdnet</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sdpipe.vcxproj">
+      <Project>{D8535103-50F4-3F9D-BD07-74BC93C7B35F}</Project>
+      <Name>sdpipe</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sdsysteminfo.vcxproj">
+      <Project>{56C96236-EA26-342E-942F-57BA885D8754}</Project>
+      <Name>sdsysteminfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\src\sdu.vcxproj">
+      <Project>{4EA84B62-41DD-3064-9448-79B7D1A80F06}</Project>
+      <Name>sdu</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cui\Workspaces\SSEngine\build-tests\tests\sse_tests.vcxproj">
+      <Project>{760040E8-562F-3572-B658-5D124AF2B6B5}</Project>
+      <Name>sse_tests</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,9 @@
+# CMake generation dependency list for this directory.
+C:/Users/cui/Workspaces/SSEngine/tests/CMakeLists.txt
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/ExternalProject/shared_internal_commands.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FetchContent.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FetchContent/CMakeLists.cmake.in
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FindGit.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FindPackageMessage.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/GoogleTest.cmake

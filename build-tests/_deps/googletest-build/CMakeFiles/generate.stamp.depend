@@ -1,0 +1,19 @@
+# CMake generation dependency list for this directory.
+C:/Users/cui/Workspaces/SSEngine/build-tests/CMakeFiles/4.0.3/CMakeCCompiler.cmake
+C:/Users/cui/Workspaces/SSEngine/build-tests/_deps/googletest-src/CMakeLists.txt
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/CMakeCInformation.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/CMakeCommonLanguageInclude.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/CMakeDependentOption.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/CMakeLanguageInformation.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Compiler/MSVC-C.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Compiler/MSVC.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/GNUInstallDirs.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Internal/CMakeCLinkerInformation.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Internal/CMakeCommonLinkerInformation.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Linker/MSVC-C.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Linker/MSVC.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Platform/Linker/Windows-MSVC-C.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Platform/Linker/Windows-MSVC.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Platform/Windows-MSVC-C.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Platform/Windows-MSVC.cmake

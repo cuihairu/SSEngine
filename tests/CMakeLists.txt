@@ -44,6 +44,15 @@ add_executable(sse_tests
   test_sdmemorypool.cpp
   test_sdfifo.cpp
   test_sdidpool.cpp
+  test_sdindexer.cpp
+  test_sdhashmap.cpp
+  test_sdobjectpool.cpp
+  test_sdshm.cpp
+  test_sdcondition.cpp
+  test_sddir.cpp
+  test_sdthreadctrl.cpp
+  test_sdthreadpool.cpp
+  test_sdnetopt.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE

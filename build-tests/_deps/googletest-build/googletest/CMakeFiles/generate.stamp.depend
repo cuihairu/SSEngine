@@ -1,0 +1,18 @@
+# CMake generation dependency list for this directory.
+C:/Users/cui/Workspaces/SSEngine/build-tests/_deps/googletest-src/googletest/CMakeLists.txt
+C:/Users/cui/Workspaces/SSEngine/build-tests/_deps/googletest-src/googletest/cmake/Config.cmake.in
+C:/Users/cui/Workspaces/SSEngine/build-tests/_deps/googletest-src/googletest/cmake/gtest.pc.in
+C:/Users/cui/Workspaces/SSEngine/build-tests/_deps/googletest-src/googletest/cmake/gtest_main.pc.in
+C:/Users/cui/Workspaces/SSEngine/build-tests/_deps/googletest-src/googletest/cmake/internal_utils.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/CMakePackageConfigHelpers.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/CheckCSourceCompiles.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/CheckIncludeFile.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/CheckLibraryExists.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FindPackageMessage.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FindPython/Support.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FindPython3.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/FindThreads.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/Internal/CheckSourceCompiles.cmake
+C:/Users/cui/scoop/apps/cmake/current/share/cmake-4.0/Modules/WriteBasicConfigVersionFile.cmake
