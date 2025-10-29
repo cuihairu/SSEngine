@@ -8,6 +8,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include <random>
 
 using namespace SSCP;
 
@@ -258,7 +259,7 @@ TEST_F(SDMemoryPoolTest, VarMemoryPool_StressTest) {
     }
     
     // Free in random order
-    std::random_shuffle(ptrs.begin(), ptrs.end());
+    std::shuffle(ptrs.begin(), ptrs.end(), std::mt19937{std::random_device{}()});
     for (void* ptr : ptrs) {
         pool.Free(ptr);
     }
@@ -280,7 +281,7 @@ TEST_F(SDMemoryPoolTest, FixMemoryPool_StressTest) {
     }
     
     // Free in random order
-    std::random_shuffle(ptrs.begin(), ptrs.end());
+    std::shuffle(ptrs.begin(), ptrs.end(), std::mt19937{std::random_device{}()});
     for (void* ptr : ptrs) {
         pool.Free(ptr);
     }
