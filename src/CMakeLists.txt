@@ -45,6 +45,13 @@ add_library(sdu STATIC
   sdu/sdtranslate.cpp
   sdu/sdstring.cpp
   sdu/sdthreadpool.cpp
+  # New implementations for previously header-only modules
+  sdu/sdmemorypool.cpp
+  sdu/sdobject_allocator.cpp
+  sdu/sdfifo.cpp
+  sdu/sdidpool.cpp
+  sdu/sdindexer.cpp
+  sdu/sdshm.cpp
   sdu/placeholder.cpp
 )
 target_include_directories(sdu PUBLIC ${PUBLIC_INCS})
