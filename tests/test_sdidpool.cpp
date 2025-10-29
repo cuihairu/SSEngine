@@ -295,6 +295,7 @@ TEST_F(SDIdPoolTest, ObjectIntegrity) {
     // Test complex object storage
     struct ComplexObject {
         int data[100];
+        ComplexObject() : name(), value(0.0) { for (int i = 0; i < 100; ++i) data[i] = 0; }
         std::string name;
         double value;
         
