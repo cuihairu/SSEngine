@@ -9,7 +9,7 @@
 #include <set>
 #include <thread>
 #include <atomic>
-#include <algorithm>
+#include <chrono>
 
 using namespace SSCP;
 
