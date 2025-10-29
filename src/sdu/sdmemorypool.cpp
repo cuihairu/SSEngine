@@ -53,77 +53,76 @@ void* CSDVarMemoryPool::Malloc(UINT32 dwLen)
 {
     if (dwLen == 0)
         return nullptr;
-    
-    // 对齐到8字节边界
+
+    // align to 8-byte boundary for payload size
     dwLen = (dwLen + ALIGNMENT - 1) & ~(ALIGNMENT - 1);
-    
-    // 如果请求的内存大于最大单元大小，直接分配
+
+    // Large allocations bypass pool; prepend size header for Free()
     if (dwLen > MAX_UNIT_SIZE)
     {
-        void* p = malloc(dwLen + sizeof(UINT32));
-        if (p)
-        {
-            *(UINT32*)p = dwLen;
-            return (BYTE*)p + sizeof(UINT32);
-        }
-        return nullptr;
+        BYTE* p = (BYTE*)malloc(dwLen + sizeof(UINT32));
+        if (!p) return nullptr;
+        *(UINT32*)p = dwLen;
+        return p + sizeof(UINT32);
     }
-    
-    // 计算单元类型索引
+
+    // Which free-list bucket
     INT32 dwIndex = (dwLen - 1) / ALIGNMENT;
-    if (dwIndex >= UNIT_TYPE_COUNT)
-        dwIndex = UNIT_TYPE_COUNT - 1;
-    
-    // 从空闲列表获取内存
+    if (dwIndex >= UNIT_TYPE_COUNT) dwIndex = UNIT_TYPE_COUNT - 1;
+
+    // Try fast path from free list
     if (m_pFreeHead[dwIndex])
     {
-        void* pResult = m_pFreeHead[dwIndex];
-        m_pFreeHead[dwIndex] = *(BYTE**)m_pFreeHead[dwIndex];
+        BYTE* pBlock = m_pFreeHead[dwIndex]; // block base (header/next area)
+        m_pFreeHead[dwIndex] = *(BYTE**)pBlock;
         m_nFreeCount[dwIndex]--;
-        return pResult;
+        // Write size header and return payload pointer
+        *(UINT32*)pBlock = dwLen;
+        return pBlock + sizeof(UINT32);
     }
-    
-    // 空闲列表为空，添加新的空闲内存
+
+    // No free block; replenish and retry
     if (!AddFreeMemory(dwIndex))
         return nullptr;
-    
-    // 再次尝试分配
+
     if (m_pFreeHead[dwIndex])
     {
-        void* pResult = m_pFreeHead[dwIndex];
-        m_pFreeHead[dwIndex] = *(BYTE**)m_pFreeHead[dwIndex];
+        BYTE* pBlock = m_pFreeHead[dwIndex];
+        m_pFreeHead[dwIndex] = *(BYTE**)pBlock;
         m_nFreeCount[dwIndex]--;
-        return pResult;
+        *(UINT32*)pBlock = dwLen;
+        return pBlock + sizeof(UINT32);
     }
-    
+
     return nullptr;
 }
 
+
 void CSDVarMemoryPool::Free(void* p)
 {
-    if (!p)
-        return;
-    
-    // 检查是否是大内存块
-    BYTE* pByte = (BYTE*)p - sizeof(UINT32);
-    UINT32 dwLen = *(UINT32*)pByte;
-    
+    if (!p) return;
+
+    // Recover size header stored just before payload
+    BYTE* pBase = (BYTE*)p - sizeof(UINT32);
+    UINT32 dwLen = *(UINT32*)pBase;
+
     if (dwLen > MAX_UNIT_SIZE)
     {
-        free(pByte);
+        // Large blocks were allocated via malloc with header
+        free(pBase);
         return;
     }
-    
-    // 计算单元类型索引
+
+    // Map size back to bucket index
     INT32 dwIndex = (dwLen - 1) / ALIGNMENT;
-    if (dwIndex >= UNIT_TYPE_COUNT)
-        dwIndex = UNIT_TYPE_COUNT - 1;
-    
-    // 添加到空闲列表头部
-    *(BYTE**)p = m_pFreeHead[dwIndex];
-    m_pFreeHead[dwIndex] = (BYTE*)p;
+    if (dwIndex >= UNIT_TYPE_COUNT) dwIndex = UNIT_TYPE_COUNT - 1;
+
+    // Push block base back to free list head
+    *(BYTE**)pBase = m_pFreeHead[dwIndex];
+    m_pFreeHead[dwIndex] = pBase;
     m_nFreeCount[dwIndex]++;
 }
+
 
 void CSDVarMemoryPool::Clear()
 {
@@ -159,40 +158,50 @@ INT32 CSDVarMemoryPool::GetMemUsed()
 
 BOOL CSDVarMemoryPool::AddFreeMemory(INT32 dwIndex)
 {
-    UINT32 dwUnitSize = (dwIndex + 1) * ALIGNMENT;
-    
-    // 检查当前页是否有足够空间
-    if (!m_pWorkPage || m_pPageBuf + dwUnitSize * ALLOC_COUNT > GetPageBufEnd(m_pWorkPage))
+    // Payload size for this bucket
+    UINT32 unitSize = (dwIndex + 1) * ALIGNMENT;
+    // Each block reserves a 4-byte header (size) in front of payload
+    UINT32 stride = unitSize + sizeof(UINT32);
+
+    // Ensure current work page has enough contiguous space; otherwise allocate a new page
+    if (!m_pWorkPage || m_pPageBuf + (size_t)stride * ALLOC_COUNT > GetPageBufEnd(m_pWorkPage))
     {
         if (!SetMemoryPage())
             return FALSE;
     }
-    
-    // 分配ALLOC_COUNT个单元
-    for (INT32 i = 0; i < ALLOC_COUNT; i++)
+
+    // Carve ALLOC_COUNT blocks from current page
+    for (INT32 i = 0; i < ALLOC_COUNT; ++i)
     {
+        // Link into free list; store next pointer in block base
         *(BYTE**)m_pPageBuf = m_pFreeHead[dwIndex];
         m_pFreeHead[dwIndex] = m_pPageBuf;
-        m_pPageBuf += dwUnitSize;
+        m_pPageBuf += stride;
         m_nFreeCount[dwIndex]++;
     }
-    
+
     return TRUE;
 }
+
 
 BOOL CSDVarMemoryPool::SetMemoryPage()
 {
     MemoryPage* pNewPage = (MemoryPage*)malloc(sizeof(MemoryPage) + m_nPageSize);
-    if (!pNewPage)
-        return FALSE;
-    
+    if (!pNewPage) return FALSE;
+
     pNewPage->Next = m_pHeadPage;
     m_pHeadPage = pNewPage;
     m_pWorkPage = pNewPage;
     m_pPageBuf = GetPageBufGegin(pNewPage);
-    
+
+    // Adjust start so that payload pointer (base + sizeof(UINT32)) is ALIGNMENT-aligned
+    size_t mis = ((size_t)m_pPageBuf + sizeof(UINT32)) % ALIGNMENT;
+    if (mis != 0)
+        m_pPageBuf += (ALIGNMENT - mis);
+
     return TRUE;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // CSDFixMemoryPool - 固定内存池
