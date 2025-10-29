@@ -41,6 +41,9 @@ add_executable(sse_tests
   test_sdalgorithm.cpp
   test_sdcsvfile.cpp
   test_sddatastream.cpp
+  test_sdmemorypool.cpp
+  test_sdfifo.cpp
+  test_sdidpool.cpp
 )
 
 target_link_libraries(sse_tests PRIVATE
