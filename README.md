@@ -1,68 +1,46 @@
-# SSEngine (Re-implementation)
+﻿# SSEngine (Re-implementation)
 
-本仓库用于在保持相同头文件接口的前提下，重写并替换原有 Windows SDK（win32/win64 下的预编译库）。目标平台：Windows x86/x64，Linux x86_64，macOS (x86_64/arm64)。
+鏈粨搴撶敤浜庡湪淇濇寔鐩稿悓澶存枃浠舵帴鍙ｇ殑鍓嶆彁涓嬶紝閲嶅啓骞舵浛鎹㈠師鏈?Windows SDK锛坵in32/win64 涓嬬殑棰勭紪璇戝簱锛夈€傜洰鏍囧钩鍙帮細Windows x86/x64锛孡inux x86_64锛宮acOS (x86_64/arm64)銆?
+娉ㄦ剰锛歸in32/win64 鐩綍涓殑澶存枃浠朵笌搴撲粛鐒朵繚鐣欙紝鍙綔涓哄鐓ф祴璇曚笌琛屼负鍩哄噯锛屼笉鍐嶇洿鎺ュ弬涓庡悗缁瀯寤恒€?
+## 鐩綍缁撴瀯
+ - include/        缁熶竴鐨勫叕鍏卞ご鏂囦欢锛堝凡鎵佸钩鍖栧師鏉ョ殑 include/include 缁撴瀯锛?- src/            鍚勬ā鍧楁簮鐮侊紙鍏堝疄鐜?Windows锛屽悗瀹炵幇 Linux锛屾渶鍚?macOS锛?- win32/, win64/  渚涘簲鍟嗕簩杩涘埗涓庡ご鏂囦欢锛堝鐓х敤锛?- CMakeLists.txt  椤跺眰 CMake锛屽伐绋嬩娇鐢?CMake 缁熶竴绠＄悊
 
-注意：win32/win64 目录中的头文件与库仍然保留，只作为对照测试与行为基准，不再直接参与后续构建。
+## 妯″潡娓呭崟锛堟寜浼樺厛绾э級
+1) sdlogger    鏂囦欢/UDP/TCP 鏃ュ織鍣?+ 宸ュ巶瀵煎嚭
+2) sdu         甯哥敤宸ュ叿锛堢嚎绋?閿?鏉′欢鍙橀噺/鏃堕棿/鏂囦欢/鍘熷瓙/缃戠粶瀛楄妭搴忕瓑锛?3) sdnet       楂樻€ц兘缃戠粶锛圵indows: IOCP锛汱inux: epoll锛沵acOS: kqueue锛?4) sdpipe      鍩轰簬 sdnet 鐨勬秷鎭?绠￠亾鎶借薄
+5) sdconsole   Windows 鎺у埗鍙帮紙鍥哄畾鍖哄煙/婊氬姩鍖?棰滆壊/閿洏鐩戝惉锛?6) sddb        DB 浼氳瘽/鍛戒护/缁撴灉闆嗭紙绗竴闃舵瀹炵幇 Mock/鏈€灏忓彲鐢ㄨ涔夛級
+7) sdgate, sdsysteminfo, sddebugviewer  濡備笟鍔￠渶瑕佸啀瀹炵幇
 
-## 目录结构
- - include/        统一的公共头文件（已扁平化原来的 include/include 结构）
-- src/            各模块源码（先实现 Windows，后实现 Linux，最后 macOS）
-- win32/, win64/  供应商二进制与头文件（对照用）
-- CMakeLists.txt  顶层 CMake，工程使用 CMake 统一管理
-- docs/HEADERS.md 头文件分类与用途说明（实现与测试导航）
+## 寮€鍙戣矾绾垮浘
+- 绗?1 闃舵锛圵indows锛?  - 鎼缓宸ョ▼鑴氭墜鏋朵笌瀵圭収娴嬭瘯妗嗘灦
+  - 浼樺厛瀹炵幇 sdlogger + sdu锛堟渶灏忓彲鐢ㄥ瓙闆嗭級
+  - 瀹炵幇 Windows sdnet锛圛OCP锛夊拰 sdpipe锛岃ˉ鍏呴噾娴嬬敤渚嬶紙涓庝緵搴斿晢搴撳鎷嶏級
+  - 瀹炵幇 sdconsole 涓?sddb(Mock) 鐨勬渶灏忚涔夐泦
+  - 鍦?Windows CI 涓婃寜妯″潡閫愭瀵规瘮楠岃瘉锛堣涓?閿欒鐮?鍥炶皟椤哄簭/杈圭晫鍦烘櫙锛?- 绗?2 闃舵锛圠inux锛?  - 澶嶇敤澶存枃浠朵笌鎺ュ彛锛岃惤鍦?epoll 鐗堟湰鐨?sdnet 涓?sdpipe锛屽叾浣欐ā鍧楅€傞厤
+  - Linux CI 瀵规媿娴嬭瘯
+- 绗?3 闃舵锛坢acOS锛?  - 澶嶇敤鍚屼竴濂楀ご鏂囦欢锛岃惤鍦?kqueue 鐗堟湰鐨?sdnet 涓?sdpipe
+  - macOS CI 瀵规媿娴嬭瘯
 
-## 模块清单（按优先级）
-1) sdlogger    文件/UDP/TCP 日志器 + 工厂导出
-2) sdu         常用工具（线程/锁/条件变量/时间/文件/原子/网络字节序等）
-3) sdnet       高性能网络（Windows: IOCP；Linux: epoll；macOS: kqueue）
-4) sdpipe      基于 sdnet 的消息/管道抽象
-5) sdconsole   Windows 控制台（固定区域/滚动区/颜色/键盘监听）
-6) sddb        DB 会话/命令/结果集（第一阶段实现 Mock/最小可用语义）
-7) sdgate, sdsysteminfo, sddebugviewer  如业务需要再实现
-
-## 开发路线图
-- 第 1 阶段（Windows）
-  - 搭建工程脚手架与对照测试框架
-  - 优先实现 sdlogger + sdu（最小可用子集）
-  - 实现 Windows sdnet（IOCP）和 sdpipe，补充金测用例（与供应商库对拍）
-  - 实现 sdconsole 与 sddb(Mock) 的最小语义集
-  - 在 Windows CI 上按模块逐步对比验证（行为/错误码/回调顺序/边界场景）
-- 第 2 阶段（Linux）
-  - 复用头文件与接口，落地 epoll 版本的 sdnet 与 sdpipe，其余模块适配
-  - Linux CI 对拍测试
-- 第 3 阶段（macOS）
-  - 复用同一套头文件，落地 kqueue 版本的 sdnet 与 sdpipe
-  - macOS CI 对拍测试
-
-## 对拍与测试策略
-- 同进程同时加载“供应商库”和“自研库”，用相同用例驱动，比较：
-  - 返回值与错误码（如 ESDNetErrCode、ESDPipeCode、SDDB 错误）
-  - 回调顺序与时序窗口（Run 步进、粘包/半包、异常路径）
-  - 地址/字符串/长度/缓冲区空间等可观察状态
-- 不跑通对拍即不替换。性能回归另行评估（连接数、吞吐、CPU）。
-
-## 已知兼容性事项
-- sdsysteminfo.h/sddebugviewer.h 使用的 `SSSCPVersion` 类型在仓库内缺失定义，后续将以兼容头或别名方式补齐（不改变原头文件名与接口）。
-- 32/64 位库命名在 win32/win64 不一致（ss*/sd* 前缀），替换时需分别生成。
-- Windows 动态导出名将通过 .def 控制确保 ABI 一致；静态库作为中间形态可用于单元测试。
-
-## 构建（脚手架）
-- Windows（后续补齐 CI 脚本与编译说明）
+## 瀵规媿涓庢祴璇曠瓥鐣?- 鍚岃繘绋嬪悓鏃跺姞杞解€滀緵搴斿晢搴撯€濆拰鈥滆嚜鐮斿簱鈥濓紝鐢ㄧ浉鍚岀敤渚嬮┍鍔紝姣旇緝锛?  - 杩斿洖鍊间笌閿欒鐮侊紙濡?ESDNetErrCode銆丒SDPipeCode銆丼DDB 閿欒锛?  - 鍥炶皟椤哄簭涓庢椂搴忕獥鍙ｏ紙Run 姝ヨ繘銆佺矘鍖?鍗婂寘銆佸紓甯歌矾寰勶級
+  - 鍦板潃/瀛楃涓?闀垮害/缂撳啿鍖虹┖闂寸瓑鍙瀵熺姸鎬?- 涓嶈窇閫氬鎷嶅嵆涓嶆浛鎹€傛€ц兘鍥炲綊鍙﹁璇勪及锛堣繛鎺ユ暟銆佸悶鍚愩€丆PU锛夈€?
+## 宸茬煡鍏煎鎬т簨椤?- sdsysteminfo.h/sddebugviewer.h 浣跨敤鐨?`SSSCPVersion` 绫诲瀷鍦ㄤ粨搴撳唴缂哄け瀹氫箟锛屽悗缁皢浠ュ吋瀹瑰ご鎴栧埆鍚嶆柟寮忚ˉ榻愶紙涓嶆敼鍙樺師澶存枃浠跺悕涓庢帴鍙ｏ級銆?- 32/64 浣嶅簱鍛藉悕鍦?win32/win64 涓嶄竴鑷达紙ss*/sd* 鍓嶇紑锛夛紝鏇挎崲鏃堕渶鍒嗗埆鐢熸垚銆?- Windows 鍔ㄦ€佸鍑哄悕灏嗛€氳繃 .def 鎺у埗纭繚 ABI 涓€鑷达紱闈欐€佸簱浣滀负涓棿褰㈡€佸彲鐢ㄤ簬鍗曞厓娴嬭瘯銆?
+## 鏋勫缓锛堣剼鎵嬫灦锛?- Windows锛堝悗缁ˉ榻?CI 鑴氭湰涓庣紪璇戣鏄庯級
   ```pwsh
   cmake -S . -B build -A x64 -DCMAKE_BUILD_TYPE=Release
   cmake --build build --config Release --target sdlogger
   ```
-- 其他平台当前仅生成占位库，待实现对应平台逻辑后再启用。
+- 鍏朵粬骞冲彴褰撳墠浠呯敓鎴愬崰浣嶅簱锛屽緟瀹炵幇瀵瑰簲骞冲彴閫昏緫鍚庡啀鍚敤銆?
+## 鍙樻洿璁板綍锛堟湰娆★級
+- 鎵佸钩 include/include 涓哄崟涓€ include/ 鏍癸紱淇 CMake PUBLIC include 鐩綍
+- 瀹炵幇 sdu 瀛愰泦锛歴dnetutils锛堣法骞冲彴锛夈€乻dthread/sdmutex/sdcondition/sdtime/sdfile/sdatomic锛圵indows 浼樺厛锛?- sdlogger锛欳SDLogger 瀹炵幇锛沇indows 涓嬫彁渚涙枃浠?UDP/TCP 鍩虹瀹炵幇
+- sdnet锛氭彁渚涢鏋跺伐鍘傦紝鍚庣画鏇挎崲 IOCP 瀹炵幇
+- 闆嗘垚 GoogleTest 涓?CTest锛涙柊澧?sdlogger/sdnetutils/sdthread/sdmutex/sdtime/sdfile/sdatomic 鍗曟祴
 
-## 变更记录（本次）
-- 扁平 include/include 为单一 include/ 根；修正 CMake PUBLIC include 目录
-- 实现 sdu 子集：sdnetutils（跨平台）、sdthread/sdmutex/sdcondition/sdtime/sdfile/sdatomic（Windows 优先）
-- sdlogger：CSDLogger 实现；Windows 下提供文件/UDP/TCP 基础实现
-- sdnet：提供骨架工厂，后续替换 IOCP 实现
-- 集成 GoogleTest 与 CTest；新增 sdlogger/sdnetutils/sdthread/sdmutex/sdtime/sdfile/sdatomic 单测
+## 涓嬩竴姝ヨ鍒?1) 鍦?Windows 涓嬪畬鍠?sdlogger 鐨勬枃浠?UDP/TCP 瀹炵幇涓庤涓哄鎷嶆祴璇?2) 瀹炵幇 sdu 鏈€灏忓瓙闆嗭紙绾跨▼/閿?鏃堕棿/鏂囦欢/缃戠粶瀛楄妭搴?鍘熷瓙 绛夛級
+3) 璧锋 sdnet(IOCP) + sdpipe 鐨勯鏋朵笌鍏抽敭璺緞娴嬭瘯
+4) 鏁村悎 Windows CI锛堟瀯寤恒€佽繍琛屽鎷嶆祴璇曪級
 
-## 下一步计划
-1) 在 Windows 下完善 sdlogger 的文件/UDP/TCP 实现与行为对拍测试
-2) 实现 sdu 最小子集（线程/锁/时间/文件/网络字节序/原子 等）
-3) 起步 sdnet(IOCP) + sdpipe 的骨架与关键路径测试
-4) 整合 Windows CI（构建、运行对拍测试）
+## 文档/Wiki
+- 项目 Wiki 入口：wiki/Home.md
+- 头文件索引：wiki/Headers.md
+

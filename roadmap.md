@@ -1,4 +1,10 @@
-Roadmap / Status
+﻿Roadmap / Status
+
+Priorities
+- P2: sdconsole (Windows first; cross-platform later)
+- P2: sddb (Mock first; real adapter later)
+- P3: sdsysteminfo (cross-platform info collection)
+
 
 Status Overview
 - Headers: moved to include/ssengine/; all sources/tests updated to include via ssengine/...; copyrights updated to "Copyright (C) 2025 Cui Hairu. All rights reserved."
