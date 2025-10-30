@@ -41,6 +41,7 @@
 4) 鏁村悎 Windows CI锛堟瀯寤恒€佽繍琛屽鎷嶆祴璇曪級
 
 ## 文档/Wiki
-- 项目 Wiki 入口：wiki/Home.md
-- 头文件索引：wiki/Headers.md
+- 项目 Wiki 入口：https://github.com/cuihairu/SSEngine/wiki
+
+
 
